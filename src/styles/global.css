@@ -1,0 +1,186 @@
+/* ---------- Brand tokens (carried over from marvelousliving.in) ---------- */
+:root {
+  --bg: #faf1e4;
+  --bg-alt: #f1e2cc;
+  --bg-deep: #2a1b12;
+  --ink: #444d3b;
+  --ink-soft: #6b5744;
+  --ink-on-dark: #f6eada;
+  --ink-on-dark-soft: #c9b29b;
+  --olive: #4b5d3a;
+  --olive-dark: #38452b;
+  --rust: #a8482b;
+  --rust-dark: #7e3520;
+  --rust-tint: #f1d9c9;
+  /* Gold is too light for text on cream (2.3:1). Use it on dark grounds or for decoration. */
+  --gold: #c89b4a;
+  --gold-dark: #9c7530;
+  --gold-tint: #f3e4c2;
+  --white: #fffdf9;
+  --whatsapp: #25d366;
+
+  --font-display: 'Fraunces Variable', 'Lora', Georgia, serif;
+  --font-body: 'Manrope Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --container: 1200px;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+  --section-pad: clamp(4rem, 10vw, 8rem);
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-xl: clamp(24px, 4vw, 48px);
+  --shadow-soft: 0 12px 32px -12px rgba(42, 27, 18, 0.28);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.92rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --step-1: clamp(1.25rem, 1.15rem + 0.5vw, 1.6rem);
+  --step-2: clamp(1.6rem, 1.3rem + 1.4vw, 2.6rem);
+  --step-3: clamp(2.2rem, 1.6rem + 3vw, 4.4rem);
+  --step-4: clamp(3rem, 1.8rem + 6vw, 7.5rem);
+  --step-hero: clamp(3.6rem, 1rem + 13vw, 15rem);
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, svg, video { display: block; max-width: 100%; height: auto; }
+button, input, select, textarea { font: inherit; color: inherit; }
+a { color: inherit; }
+ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ---------- Page transitions (native cross-document View Transitions) ---------- */
+@view-transition { navigation: auto; }
+::view-transition-group(*) { animation-duration: 0.6s; animation-timing-function: var(--ease-out); }
+
+/* ---------- Typography ---------- */
+h1, h2, h3, .display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 144;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+h2 { font-size: var(--step-3); }
+h3 { font-size: var(--step-1); line-height: 1.2; letter-spacing: -0.01em; font-variation-settings: 'SOFT' 50, 'opsz' 36; }
+p { text-wrap: pretty; max-width: 62ch; }
+em.accent, .accent { font-style: italic; color: var(--rust); }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: var(--step--1);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rust);
+}
+.eyebrow::before { content: ''; width: 2rem; height: 1px; background: currentColor; }
+.lead { font-size: var(--step-1); line-height: 1.45; color: var(--ink-soft); }
+
+/* ---------- Layout ---------- */
+.container { width: min(100% - 2 * var(--gutter), var(--container)); margin-inline: auto; }
+.section { padding-block: var(--section-pad); }
+.stack > * + * { margin-top: var(--stack, 1.25rem); }
+
+/* ---------- Buttons & links ---------- */
+.btn {
+  --btn-bg: var(--rust);
+  --btn-fg: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 48px;
+  padding: 0.8rem 1.5rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--btn-bg);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: background-color 0.3s var(--ease-out), color 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+}
+.btn:hover { --btn-bg: var(--rust-dark); }
+.btn:active { transform: scale(0.98); }
+.btn--ghost { --btn-fg: var(--ink); background: transparent; border-color: currentColor; }
+.btn--ghost:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn--light { --btn-bg: var(--ink-on-dark); --btn-fg: var(--bg-deep); }
+.btn--light:hover { --btn-bg: var(--white); }
+.btn--whatsapp { --btn-bg: #1b7f45; --btn-fg: #fff; }
+.btn--whatsapp:hover { --btn-bg: #146536; }
+.btn .arrow { transition: transform 0.3s var(--ease-out); }
+.btn:hover .arrow { transform: translateX(4px); }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  font-size: var(--step--1);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ---------- Focus & accessibility ---------- */
+:focus-visible { outline: 3px solid var(--rust); outline-offset: 3px; border-radius: 6px; }
+.on-dark :focus-visible { outline-color: var(--gold); }
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  background: var(--bg-deep);
+  color: var(--ink-on-dark);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+}
+.skip-link:focus { top: 1rem; }
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
+}
+
+/* Dark grounds */
+.on-dark { background: var(--bg-deep); color: var(--ink-on-dark); }
+.on-dark h2, .on-dark h3 { color: var(--ink-on-dark); }
+.on-dark .eyebrow { color: var(--gold); }
+.on-olive { background: var(--olive); color: var(--ink-on-dark); }
+.on-olive h2, .on-olive h3 { color: var(--ink-on-dark); }
+.on-olive .eyebrow { color: var(--gold-tint); }
+
+/* Motion is decorative only: with reduced motion everything is shown as-is. */
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

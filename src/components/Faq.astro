@@ -1,0 +1,53 @@
+---
+interface Props { items: { q: string; a: string }[]; id?: string; title?: string }
+const { items, id = 'faq', title = 'Questions, answered' } = Astro.props;
+---
+
+<section class="section faq" id={id} aria-labelledby={`${id}-title`}>
+  <div class="container grid">
+    <div class="intro">
+      <p class="eyebrow">Good to know</p>
+      <h2 id={`${id}-title`} data-split>{title}</h2>
+    </div>
+    <div class="list">
+      {items.map((item) => (
+        <details>
+          <summary>
+            <span>{item.q}</span>
+            <span class="icon" aria-hidden="true"></span>
+          </summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; gap: 3rem; grid-template-columns: 1fr 1.4fr; align-items: start; }
+  .intro { position: sticky; top: 7rem; }
+  .intro h2 { margin-top: 1rem; }
+  details { border-top: 1px solid rgba(42, 27, 18, 0.15); }
+  details:last-child { border-bottom: 1px solid rgba(42, 27, 18, 0.15); }
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    min-height: 44px;
+    padding: 1.4rem 0;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-display);
+    font-variation-settings: 'SOFT' 50, 'opsz' 36;
+    font-size: var(--step-1);
+    line-height: 1.25;
+  }
+  summary::-webkit-details-marker { display: none; }
+  .icon { position: relative; flex: none; width: 2.25rem; height: 2.25rem; border-radius: 50%; border: 1px solid currentColor; }
+  .icon::before, .icon::after { content: ''; position: absolute; inset: 50% auto auto 50%; width: 12px; height: 1.5px; background: currentColor; translate: -50% -50%; transition: rotate 0.35s var(--ease-out); }
+  .icon::after { rotate: 90deg; }
+  details[open] .icon::after { rotate: 0deg; }
+  details p { padding-bottom: 1.5rem; color: var(--ink-soft); }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } .intro { position: static; } }
+</style>
