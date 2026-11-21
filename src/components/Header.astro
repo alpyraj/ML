@@ -87,13 +87,15 @@ const links = [
   }
   .site-header.is-scrolled .bar { padding-block: 0.6rem; }
   [data-home]:not(.is-scrolled), .site-header.menu-open { color: var(--ink-on-dark); }
-  [data-home]:not(.is-scrolled) .bar, .menu-open .bar { background: transparent; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  [data-home]:not(.is-scrolled) .bar,
+  .site-header.menu-open .bar,
+  .site-header.menu-open:not([data-home]) .bar { background: transparent; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
 
   .logo { justify-self: start; display: inline-grid; align-items: center; min-height: 44px; }
   .logo img { grid-area: 1 / 1; height: 60px; width: auto; transition: opacity 0.4s var(--ease-out); }
   .logo-light { opacity: 0; }
-  [data-home]:not(.is-scrolled) .logo-dark, .menu-open .logo-dark { opacity: 0; }
-  [data-home]:not(.is-scrolled) .logo-light, .menu-open .logo-light { opacity: 1; }
+  [data-home]:not(.is-scrolled) .logo-dark, .site-header.menu-open .logo-dark { opacity: 0; }
+  [data-home]:not(.is-scrolled) .logo-light, .site-header.menu-open .logo-light { opacity: 1; }
 
   .nav-desktop ul { display: flex; gap: 2.25rem; }
   .nav-desktop a, .book {
