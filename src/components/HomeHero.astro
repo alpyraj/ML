@@ -3,112 +3,76 @@ import { properties } from '../data/properties';
 import { site } from '../data/site';
 
 const cassia = properties[0];
-// Real photos, shown near their native size inside the arch so they stay sharp.
-const slides = [cassia.gallery[0], cassia.gallery[1], cassia.gallery[2], cassia.gallery[4]].map((photo) => ({
-  ...photo,
-  caption: `${cassia.name} · ${photo.alt.split(' with ')[0]}`,
-}));
+const pick = (match: string, room: string) => {
+  const photo = cassia.gallery.find((p) => p.src.includes(match)) ?? cassia.gallery[0];
+  return { ...photo, caption: `${cassia.name} N°${cassia.number}`, room };
+};
+const slides = [
+  pick('livingroom', 'Living room'),
+  pick('bedroom2', 'Bedroom'),
+  pick('dining', 'Dining area'),
+  pick('tvunit', 'Lounge'),
+];
 ---
 
 <section class="hero" aria-labelledby="hero-title" data-hero>
-  <div class="hero-inner">
-    <div class="hero-text">
-      <p class="eyebrow" data-hero-fade>{site.tagline}</p>
-      <h1 id="hero-title" class="hero-title">
-        <span class="line" data-hero-line>Marvelous</span>
-        <span class="line line--accent" data-hero-line><em>Living</em></span>
-      </h1>
-      <p class="hero-lead" data-hero-fade>
-        Whole homes for short and medium stays, set up for working, resting and staying a while.
-      </p>
-      <div class="hero-actions" data-hero-fade>
-        <a class="btn" href="/stays">Explore our stays <span class="arrow" aria-hidden="true">→</span></a>
-        <p class="rating"><strong>4.9 / 5</strong> from Airbnb guests</p>
-      </div>
+  <div class="hero-media" data-hero-media>
+    {slides.map((s, i) => (
+      <img
+        src={s.src}
+        alt=""
+        width={s.width}
+        height={s.height}
+        class:list={['slide', { 'is-active': i === 0 }]}
+        fetchpriority={i === 0 ? 'high' : undefined}
+        loading={i === 0 ? 'eager' : 'lazy'}
+        decoding="async"
+        data-slide={i}
+        data-room={s.room}
+      />
+    ))}
+    <span class="grain" aria-hidden="true"></span>
+  </div>
+
+  <div class="hero-grid">
+    <h1 id="hero-title" class="hero-title">
+      <span class="visually-hidden">Marvelous Living, {site.tagline.toLowerCase()}</span>
+      <span class="word word--top" aria-hidden="true" data-hero-word="left"><span data-hero-rise>Marvelous</span></span>
+      <span class="word word--bottom" aria-hidden="true" data-hero-word="right"><span data-hero-rise><em>Living</em></span></span>
+    </h1>
+
+    <div class="hero-copy" data-hero-fade>
+      <p class="hero-kicker">Between work &amp; rest</p>
+      <p class="hero-lead">Whole homes in Bengaluru for short and medium stays. Quiet, lived-in and set up for staying a while.</p>
+      <a class="hero-cta" href="/stays">Explore our stays <span class="arrow" aria-hidden="true">→</span></a>
     </div>
 
-    <div class="hero-visual" data-hero-visual>
-      <span class="arch-outline" aria-hidden="true"></span>
-      <div class="arch" data-hero-arch>
-        {slides.map((s, i) => (
-          <img
-            src={s.src}
-            alt={i === 0 ? s.alt : ''}
-            width={s.width}
-            height={s.height}
-            class:list={['slide', { 'is-active': i === 0 }]}
-            fetchpriority={i === 0 ? 'high' : undefined}
-            loading={i === 0 ? 'eager' : 'lazy'}
-            data-slide={i}
-            data-caption={s.caption}
-          />
-        ))}
-      </div>
-      <svg class="badge" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
-        <defs><path id="badge-circle" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0" /></defs>
-        <text><textPath href="#badge-circle" textLength="286" lengthAdjust="spacing">Whole homes · Bengaluru · Stay a while ·</textPath></text>
-      </svg>
-      <div class="hero-meta">
-        <p class="caption" aria-hidden="true" data-hero-caption>{slides[0].caption}</p>
-        <button type="button" class="slide-toggle" data-slide-toggle aria-pressed="false">
-          <span class="visually-hidden" data-slide-toggle-label>Pause photo slideshow</span>
-          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" class="icon-pause"><path d="M4 3h3v10H4zM9 3h3v10H9z" /></svg>
-          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" class="icon-play"><path d="M4 3l9 5-9 5z" /></svg>
-        </button>
-      </div>
+    <div class="hero-meta" data-hero-fade>
+      <p class="caption" aria-hidden="true">
+        <span>{slides[0].caption}</span>
+        <span class="caption-room" data-hero-room>{slides[0].room}</span>
+      </p>
+      <button type="button" class="slide-toggle" data-slide-toggle aria-pressed="false">
+        <span class="visually-hidden" data-slide-toggle-label>Pause background photos</span>
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" class="icon-pause"><path d="M4 3h3v10H4zM9 3h3v10H9z" /></svg>
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" class="icon-play"><path d="M4 3l9 5-9 5z" /></svg>
+      </button>
     </div>
   </div>
 </section>
 
 <style>
   .hero {
-    padding: clamp(7rem, 12vw, 9rem) var(--gutter) clamp(3rem, 6vw, 5rem);
-    min-height: 100svh;
-    display: flex;
-    align-items: center;
-    overflow-x: clip;
-  }
-  .hero-inner {
-    width: min(100%, calc(var(--container) + 8rem));
-    margin-inline: auto;
-    display: grid;
-    grid-template-columns: 1.25fr 1fr;
-    gap: clamp(2rem, 6vw, 6rem);
-    align-items: center;
-  }
-  .hero-title { display: flex; flex-direction: column; margin-block: 1.25rem 1.75rem; }
-  .line {
-    display: block;
-    font-size: clamp(3.4rem, 1rem + 8.4vw, 10rem);
-    line-height: 0.86;
-    letter-spacing: -0.045em;
-    font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 144;
-  }
-  .line--accent { color: var(--rust); padding-left: clamp(1.5rem, 7vw, 7rem); }
-  .line--accent em { font-style: italic; }
-  .hero-lead { font-size: var(--step-1); line-height: 1.45; color: var(--ink-soft); max-width: 28ch; }
-  .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.75rem; margin-top: 2rem; }
-  .rating { color: var(--ink-soft); font-size: var(--step--1); }
-  .rating strong { font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; color: var(--ink); margin-right: 0.35rem; }
-
-  .hero-visual { position: relative; justify-self: center; width: min(100%, 460px); }
-  .arch {
     position: relative;
-    aspect-ratio: 3 / 4;
-    border-radius: 999px 999px var(--radius-lg) var(--radius-lg);
-    overflow: hidden;
-    background: var(--bg-alt);
+    min-height: 100svh;
+    color: var(--ink-on-dark);
+    background: var(--bg-deep);
+    overflow: clip;
     isolation: isolate;
   }
-  .arch-outline {
-    position: absolute;
-    inset: -14px -14px 34px 14px;
-    border: 1.5px solid var(--line);
-    border-color: color-mix(in srgb, var(--ink) 35%, transparent);
-    border-radius: 999px 999px var(--radius-lg) var(--radius-lg);
-    translate: 18px -18px;
-    pointer-events: none;
-  }
+
+  /* Full-bleed photo with a warm dark wash and fine grain (the source photos are small). */
+  .hero-media { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
   .slide {
     position: absolute;
     inset: 0;
@@ -116,64 +80,140 @@ const slides = [cassia.gallery[0], cassia.gallery[1], cassia.gallery[2], cassia.
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    transform: scale(1.08);
-    transition: opacity 1.2s var(--ease-out), transform 6s linear;
+    transform: scale(1.06);
+    transition: opacity 1.4s var(--ease-out), transform 7s linear;
   }
   .slide.is-active { opacity: 1; transform: scale(1); }
-  .badge {
+  .hero-media::after {
+    content: '';
     position: absolute;
-    left: -54px;
-    bottom: 64px;
-    width: 120px;
-    height: 120px;
-    padding: 6px;
-    border-radius: 50%;
-    background: var(--rust);
-    fill: var(--white);
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    animation: spin 22s linear infinite;
-    box-shadow: var(--shadow-soft);
+    inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(42, 27, 18, 0.55) 0%, rgba(42, 27, 18, 0.25) 35%, rgba(42, 27, 18, 0.3) 60%, rgba(42, 27, 18, 0.78) 100%),
+      rgba(42, 27, 18, 0.3);
   }
-  @keyframes spin { to { rotate: 360deg; } }
-  .hero-meta { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1rem; }
-  .caption { font-size: var(--step--1); color: var(--ink-soft); }
+  .grain {
+    position: absolute;
+    inset: -50%;
+    z-index: 1;
+    opacity: 0.22;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .hero-grid {
+    min-height: 100svh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr auto auto;
+    gap: 1.5rem 2rem;
+    padding: clamp(6rem, 11vw, 8.5rem) var(--gutter) clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .hero-title { display: contents; color: inherit; }
+  .word {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.06em;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(3.2rem, 12.6vw, 15rem);
+    line-height: 0.9;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    color: var(--ink-on-dark);
+  }
+  .word > span { display: inline-block; }
+  .word em { font-style: italic; letter-spacing: -0.02em; }
+  .word--top { grid-column: 1 / -1; grid-row: 1; justify-self: start; }
+  .word--bottom { grid-column: 1 / -1; grid-row: 3; justify-self: end; }
+
+  .hero-copy {
+    grid-column: 1; grid-row: 2;
+    align-self: center;
+    max-width: 30rem;
+  }
+  .hero-kicker {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--step-2);
+    line-height: 1.1;
+  }
+  .hero-lead {
+    margin-top: 0.85rem;
+    font-size: var(--step-0);
+    line-height: 1.55;
+    color: var(--ink-on-dark);
+    max-width: 34ch;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 44px;
+    margin-top: 1.25rem;
+    color: var(--ink-on-dark);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+  }
+  .hero-cta .arrow { transition: transform 0.4s var(--ease-out); }
+  .hero-cta:hover .arrow { transform: translateX(6px); }
+
+  .hero-meta {
+    grid-column: 1 / -1; grid-row: 4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line-on-dark);
+  }
+  .caption {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .caption-room::before { content: '/'; margin-right: 0.75rem; opacity: 0.6; }
   .slide-toggle {
     display: inline-grid;
     place-items: center;
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    border: 1px solid color-mix(in srgb, var(--ink) 30%, transparent);
+    border: 1px solid var(--line-on-dark);
     background: transparent;
-    color: var(--ink);
+    color: var(--ink-on-dark);
     cursor: pointer;
   }
+  .slide-toggle:hover { background: rgba(250, 241, 228, 0.12); }
   .slide-toggle svg { width: 14px; height: 14px; fill: currentColor; }
   .slide-toggle .icon-play { display: none; }
   .slide-toggle[aria-pressed='true'] .icon-play { display: block; }
   .slide-toggle[aria-pressed='true'] .icon-pause { display: none; }
 
-  @media (max-width: 860px) {
-    .hero { min-height: auto; }
-    .hero-inner { grid-template-columns: 1fr; }
-    .hero-visual { width: min(100% - 20px, 380px); }
-    .arch-outline { translate: 10px -10px; inset: -8px -8px 34px 8px; }
-    .badge { left: auto; right: -12px; bottom: 56px; width: 96px; height: 96px; }
+  @media (max-width: 760px) {
+    .hero-grid { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto auto; padding-top: 6.5rem; }
+    .hero-copy { grid-column: 1; align-self: end; }
+    .word { font-size: clamp(3rem, 15.5vw, 6rem); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .badge { animation: none; }
     .slide { transition: none; transform: none; }
   }
 </style>
 
 <script>
-  // Cross-fading arch slideshow with a pause control (WCAG 2.2.2).
+  // Background photo cross-fade with a pause control (WCAG 2.2.2).
   const slides = Array.from(document.querySelectorAll<HTMLImageElement>('[data-slide]'));
-  const caption = document.querySelector<HTMLElement>('[data-hero-caption]');
+  const room = document.querySelector<HTMLElement>('[data-hero-room]');
   const toggle = document.querySelector<HTMLButtonElement>('[data-slide-toggle]');
-  const label = document.querySelector<HTMLElement>('[data-slide-toggle-label]');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let index = 0;
   let timer: number | undefined;
@@ -182,14 +222,12 @@ const slides = [cassia.gallery[0], cassia.gallery[1], cassia.gallery[2], cassia.
     slides[index].classList.remove('is-active');
     index = (i + slides.length) % slides.length;
     slides[index].classList.add('is-active');
-    if (caption) caption.textContent = slides[index].dataset.caption || '';
+    if (room) room.textContent = slides[index].dataset.room || '';
   };
-  const play = () => { timer = window.setInterval(() => show(index + 1), 4500); };
+  const play = () => { timer = window.setInterval(() => show(index + 1), 5500); };
   const pause = () => { window.clearInterval(timer); timer = undefined; };
-
   const setPaused = (paused: boolean) => {
     toggle?.setAttribute('aria-pressed', String(paused));
-    if (label) label.textContent = paused ? 'Play photo slideshow' : 'Pause photo slideshow';
     paused ? pause() : play();
   };
 

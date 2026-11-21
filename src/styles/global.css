@@ -15,7 +15,7 @@
   --rust-dark: color-mix(in srgb, var(--rust) 80%, black);
   --white: #fffdf9;
 
-  --font-display: 'Fraunces Variable', 'Lora', Georgia, serif;
+  --font-display: 'Playfair Display Variable', 'Playfair Display', Georgia, serif;
   --font-body: 'Manrope Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   --container: 1200px;
@@ -68,14 +68,13 @@ html.lenis, html.lenis body { height: auto; }
 h1, h2, h3, .display {
   font-family: var(--font-display);
   font-weight: 400;
-  font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 144;
   line-height: 1.02;
   letter-spacing: -0.02em;
   color: var(--ink);
   text-wrap: balance;
 }
 h2 { font-size: var(--step-3); }
-h3 { font-size: var(--step-1); line-height: 1.2; letter-spacing: -0.01em; font-variation-settings: 'SOFT' 50, 'opsz' 36; }
+h3 { font-size: var(--step-1); line-height: 1.2; letter-spacing: -0.01em; }
 p { text-wrap: pretty; max-width: 62ch; }
 em.accent, .accent { font-style: italic; color: var(--rust); }
 

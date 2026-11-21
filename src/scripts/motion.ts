@@ -15,6 +15,8 @@ function smoothScroll() {
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
+  window.addEventListener('menu:open', () => lenis.stop());
+  window.addEventListener('menu:close', () => lenis.start());
   return lenis;
 }
 
@@ -50,24 +52,22 @@ function revealBlocks() {
   });
 }
 
-/** Home hero: the headline rises line by line, the arch opens upward, and on
- *  scroll the type and the arch drift apart slightly. */
+/** Home hero: the photo eases in, the split wordmark rises from behind its
+ *  mask, and on scroll the two words drift apart as the photo sinks away. */
 function hero() {
   const heroEl = document.querySelector('[data-hero]');
   if (!heroEl) return;
   gsap.timeline({ defaults: { ease: 'expo.out' } })
-    .from('[data-hero-arch]', { clipPath: 'inset(100% 0% 0% 0% round 999px 999px 28px 28px)', duration: 1.6 }, 0)
-    .from('[data-hero-arch] .slide.is-active', { scale: 1.25, duration: 2.4 }, 0)
-    .from('[data-hero-line]', { yPercent: 100, autoAlpha: 0, duration: 1.3, stagger: 0.12 }, 0.15)
-    .from('[data-hero-fade]', { y: 24, autoAlpha: 0, duration: 1, stagger: 0.08 }, 0.5)
-    .from('.arch-outline, .badge', { autoAlpha: 0, duration: 1.2 }, 0.9);
+    .from('[data-hero-media]', { clipPath: 'inset(12% 8% 12% 8%)', duration: 1.8 }, 0)
+    .from('[data-hero-media] .slide.is-active', { scale: 1.3, duration: 2.6 }, 0)
+    .from('[data-hero-rise]', { yPercent: 105, duration: 1.4, stagger: 0.14 }, 0.2)
+    .from('[data-hero-fade]', { y: 24, autoAlpha: 0, duration: 1, stagger: 0.1 }, 0.8);
 
-  const mm = gsap.matchMedia();
-  mm.add('(min-width: 861px)', () => {
-    gsap.timeline({ scrollTrigger: { trigger: heroEl, start: 'top top', end: 'bottom top', scrub: true } })
-      .to('[data-hero-line]', { yPercent: -30, ease: 'none', stagger: 0.05 }, 0)
-      .to('[data-hero-visual]', { yPercent: 12, ease: 'none' }, 0);
-  });
+  gsap.timeline({ scrollTrigger: { trigger: heroEl, start: 'top top', end: 'bottom top', scrub: true } })
+    .to('[data-hero-word="left"]', { xPercent: -18, ease: 'none' }, 0)
+    .to('[data-hero-word="right"]', { xPercent: 18, ease: 'none' }, 0)
+    .to('[data-hero-media]', { yPercent: 25, ease: 'none' }, 0)
+    .to('[data-hero-fade]', { autoAlpha: 0, ease: 'none', duration: 0.5 }, 0);
 }
 
 /** Coloured bands start inset with rounded corners and open to full width. */
