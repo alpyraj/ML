@@ -27,7 +27,7 @@ export interface Property {
   airbnbUrl: string;
   mapsUrl?: string;
   address?: string;
-  /** True while details are still placeholders. */
+  /** True while the photos are still placeholders. */
   draft?: boolean;
 }
 
@@ -65,9 +65,9 @@ export const properties: Property[] = [
     slug: 'cassia',
     name: 'Cassia',
     number: '01',
-    area: 'BTM Layout',
+    area: 'BTM Layout 1st Stage',
     city: 'Bengaluru',
-    type: '1BHK apartment',
+    type: '1 BHK apartment',
     guests: 2,
     bedrooms: 1,
     bathrooms: 1,
@@ -93,27 +93,41 @@ export const properties: Property[] = [
     address: 'Jaya Bheema Nagar, BTM 1st Stage, Bengaluru',
   },
   {
-    // TODO: replace with the second property's real details and photos.
     slug: 'aurelia',
     name: 'Aurelia',
     number: '02',
-    area: 'Bengaluru',
+    area: 'BTM Layout 2nd Stage',
     city: 'Bengaluru',
-    type: 'Apartment',
+    type: '1 BHK apartment',
     guests: 2,
     bedrooms: 1,
     bathrooms: 1,
-    beds: 'To be confirmed',
-    parking: true,
-    summary: 'Our second home in Bengaluru. Full details and photos are coming soon.',
+    beds: 'Queen + sofa',
+    parking: false,
+    summary:
+      'A one-bedroom home a short walk from BTM Metro.',
     description: [
-      'Details for this apartment are on their way. Message us on WhatsApp for dates and availability in the meantime.',
+      'Aurelia is in BTM Layout 2nd Stage, about 400 m from BTM Metro, with cafés and restaurants nearby and Vega City Mall a few minutes away. It suits business travellers, visiting academics and families in town for treatment at Jayadeva Hospital.',
+      'The apartment sleeps two, with a queen bed in the bedroom, a sofa in the living room, a full kitchen and one bathroom. The whole space is yours for the length of your stay. Parking is on the street only; there is no parking inside the property.',
     ],
+    // TODO: replace with Aurelia's own photos when they arrive.
     hero: photos.bedroom2,
     gallery: [photos.bedroom2, photos.dining, photos.kitchen2],
-    amenities: coreAmenities,
-    distances: [],
+    amenities: coreAmenities.map((a) =>
+      a.title === 'Free car parking'
+        ? { title: 'On-street parking', text: 'Parking is on the street outside. There is no parking inside the property.' }
+        : a,
+    ),
+    distances: [
+      { value: '~400 m', label: 'BTM Metro Station' },
+      { value: '5 min', label: 'Jayadeva Hospital' },
+      { value: '~7 min', label: 'Vega City Mall' },
+      { value: '~10 min', label: 'IIM Bangalore' },
+      { value: 'Nearby', label: 'Cafés and restaurants' },
+    ],
     airbnbUrl: 'https://www.airbnb.co.in/h/marvelousliving',
+    address: '7th Cross, 8th Main, BTM 2nd Stage, Bengaluru',
+    /** Photos are still placeholders. */
     draft: true,
   },
 ];

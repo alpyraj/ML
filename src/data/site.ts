@@ -39,7 +39,7 @@ export const site = {
     },
     {
       q: 'Is parking available?',
-      a: 'Yes, free car parking is available in the basement, at no extra charge.',
+      a: 'It depends on the home. Cassia has free car parking in the basement. At Aurelia, parking is on the street only; there is no parking inside the property.',
     },
     {
       q: 'Can I book directly instead of through Airbnb?',
