@@ -9,6 +9,7 @@ const year = new Date().getFullYear();
     <p class="big display" aria-hidden="true">Marvelous <em>Living</em></p>
     <div class="cols">
       <div>
+        <img class="logo" src="/images/ml-logo-light.svg" alt="Marvelous Living" width="533" height="157" loading="lazy" />
         <p class="intro">Serviced apartments in Bengaluru for short and medium stays. Book on Airbnb, or message us on WhatsApp for the fastest reply.</p>
       </div>
       <nav aria-label="Stays">
@@ -49,6 +50,7 @@ const year = new Date().getFullYear();
   }
   .big em { color: var(--gold); }
   .cols { display: grid; gap: 2.5rem; grid-template-columns: 2fr repeat(3, 1fr); }
+  .logo { height: 56px; width: auto; margin-bottom: 1.25rem; }
   .intro { color: var(--ink-on-dark-soft); max-width: 36ch; }
   .col-title {
     font-family: var(--font-body);
