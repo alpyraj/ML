@@ -59,14 +59,20 @@ function hero() {
     .from('[data-hero-word="left"]', { yPercent: 40, autoAlpha: 0 })
     .from('[data-hero-word="right"]', { yPercent: 40, autoAlpha: 0 }, '<0.1')
     .from('[data-hero-photo]', { clipPath: 'inset(14% 14% 14% 14% round 48px)', duration: 1.8 }, 0)
-    .from('[data-hero-photo] img', { scale: 1.25, duration: 2.2 }, 0);
+    .from('[data-hero-photo] svg', { scale: 1.2, duration: 2.2 }, 0)
+    .from('[data-hero-photo] [data-depth]', { y: 60, autoAlpha: 0, duration: 1.6, stagger: 0.08 }, 0.3);
 
   const mm = gsap.matchMedia();
   mm.add('(min-width: 761px)', () => {
     gsap.timeline({ scrollTrigger: { trigger: heroEl, start: 'top top', end: 'bottom top', scrub: true } })
       .to('[data-hero-word="left"]', { xPercent: -18, ease: 'none' }, 0)
       .to('[data-hero-word="right"]', { xPercent: 18, ease: 'none' }, 0)
-      .to('[data-hero-photo] img', { yPercent: 12, scale: 1.08, ease: 'none' }, 0);
+      .to('[data-hero-photo] svg', { yPercent: 8, ease: 'none' }, 0);
+    // Layers nearer the viewer move further, giving the room some depth.
+    gsap.utils.toArray<SVGGElement>('[data-hero-photo] [data-depth]').forEach((layer) => {
+      const depth = Number(layer.dataset.depth || 0);
+      gsap.to(layer, { y: -140 * depth, ease: 'none', scrollTrigger: { trigger: heroEl, start: 'top top', end: 'bottom top', scrub: true } });
+    });
   });
 }
 

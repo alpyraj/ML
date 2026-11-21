@@ -1,9 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import Faq from '../components/Faq.astro';
+import HeroIllustration from '../components/HeroIllustration.astro';
 import { properties } from '../data/properties';
 import { site } from '../data/site';
-const heroPhoto = properties[0].hero;
 ---
 
 <Base
@@ -19,7 +19,7 @@ const heroPhoto = properties[0].hero;
       <span class="word word--bottom" data-hero-word="right"><em>Living</em></span>
     </h1>
     <figure class="hero-photo" data-hero-photo>
-      <img src={heroPhoto.src} alt={heroPhoto.alt} width={heroPhoto.width} height={heroPhoto.height} fetchpriority="high" />
+      <HeroIllustration />
     </figure>
     <div class="hero-copy">
       <p class="eyebrow">{site.tagline}</p>
@@ -165,20 +165,19 @@ const heroPhoto = properties[0].hero;
   .word--top { grid-row: 1; grid-column: 1; justify-self: start; }
   .word--bottom { grid-row: 3; grid-column: 1; justify-self: end; align-self: end; }
   .word--bottom em { font-style: italic; }
-  /* Full-bleed photo behind everything, darkened so cream text stays readable. */
+  /* Full-bleed illustration behind everything; a soft gradient keeps the cream text readable. */
   .hero-photo {
     position: absolute;
     inset: 0;
     z-index: -1;
     background: var(--bg-deep);
   }
-  .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 60%; }
   .hero-photo::after {
     content: '';
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(to bottom, color-mix(in srgb, var(--bg-deep) 55%, transparent) 0%, color-mix(in srgb, var(--bg-deep) 20%, transparent) 40%, color-mix(in srgb, var(--bg-deep) 78%, transparent) 100%);
+      linear-gradient(to bottom, color-mix(in srgb, var(--bg-deep) 35%, transparent) 0%, transparent 35%, transparent 60%, color-mix(in srgb, var(--bg-deep) 70%, transparent) 100%);
   }
   .hero-copy {
     grid-row: 3;
@@ -196,6 +195,7 @@ const heroPhoto = properties[0].hero;
     .hero { grid-template-rows: auto 1fr auto auto; gap: 1rem; }
     .word--bottom { grid-row: 3; }
     .hero-copy { grid-row: 4; padding-block: 0; max-width: none; }
+    .hero-photo::after { background: linear-gradient(to bottom, color-mix(in srgb, var(--bg-deep) 35%, transparent) 0%, transparent 30%, color-mix(in srgb, var(--bg-deep) 85%, transparent) 75%); }
   }
 
   /* ---------- Statement ---------- */

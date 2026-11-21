@@ -1,0 +1,106 @@
+---
+/**
+ * Decorative hero illustration: a Bengaluru living room at dusk, drawn only in
+ * the four brand colours. Layers carry data-depth for a gentle parallax.
+ */
+---
+
+<svg
+  class="hero-illustration"
+  viewBox="0 0 1600 1000"
+  preserveAspectRatio="xMidYMid slice"
+  aria-hidden="true"
+  focusable="false"
+>
+  <defs>
+    <clipPath id="hero-window">
+      <path d="M560 860V420a240 240 0 0 1 480 0v440z" />
+    </clipPath>
+    <radialGradient id="hero-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="var(--bg)" stop-opacity="0.35" />
+      <stop offset="1" stop-color="var(--bg)" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Wall -->
+  <rect width="1600" height="1000" fill="var(--bg-deep)" />
+  <!-- Subtle wall panels -->
+  <g stroke="var(--bg)" stroke-opacity="0.06" stroke-width="2" fill="none">
+    <path d="M120 0v820M320 0v820M1280 0v820M1480 0v820" />
+  </g>
+
+  <!-- Window: dusk sky, sun and city -->
+  <g clip-path="url(#hero-window)">
+    <rect x="560" y="180" width="480" height="680" fill="var(--rust)" />
+    <rect x="560" y="180" width="480" height="680" fill="var(--bg)" opacity="0.14" />
+    <g data-depth="0.6">
+      <circle cx="800" cy="560" r="92" fill="var(--bg)" opacity="0.92" />
+    </g>
+    <g data-depth="0.35" fill="var(--ink)">
+      <path d="M560 860V650h40v-60h50v80h36v-120h58v110h34v-70h44v150h40v-90h52v-50h46v110h32v-80h48v170z" />
+    </g>
+    <g data-depth="0.2" fill="var(--bg-deep)" opacity="0.85">
+      <path d="M560 860V740h70v-40h60v60h80v-30h70v50h90v-70h60v40h50v90z" />
+    </g>
+  </g>
+  <!-- Window frame -->
+  <g fill="none" stroke="var(--bg)" stroke-width="6" stroke-opacity="0.85">
+    <path d="M560 860V420a240 240 0 0 1 480 0v440z" />
+    <path d="M800 180v680M560 560h480" stroke-width="4" />
+  </g>
+  <!-- Sill -->
+  <rect x="530" y="856" width="540" height="18" rx="4" fill="var(--bg)" opacity="0.85" />
+
+  <!-- Floor -->
+  <rect y="874" width="1600" height="126" fill="var(--ink)" opacity="0.35" />
+  <ellipse cx="800" cy="935" rx="520" ry="42" fill="var(--rust)" opacity="0.35" />
+
+  <!-- Pendant lamp -->
+  <g data-depth="0.9">
+    <path d="M1110 0v170" stroke="var(--bg)" stroke-opacity="0.6" stroke-width="3" />
+    <circle cx="1110" cy="250" r="170" fill="url(#hero-glow)" />
+    <path d="M1050 222a60 60 0 0 1 120 0z" fill="var(--rust)" />
+    <ellipse cx="1110" cy="224" rx="34" ry="8" fill="var(--bg)" opacity="0.9" />
+  </g>
+
+  <!-- Sofa -->
+  <g data-depth="1">
+    <rect x="420" y="700" width="560" height="150" rx="36" fill="var(--rust)" />
+    <rect x="390" y="740" width="90" height="140" rx="34" fill="var(--rust)" />
+    <rect x="920" y="740" width="90" height="140" rx="34" fill="var(--rust)" />
+    <rect x="470" y="772" width="460" height="70" rx="22" fill="var(--bg)" opacity="0.12" />
+    <rect x="500" y="660" width="120" height="96" rx="26" fill="var(--bg)" opacity="0.9" transform="rotate(-8 560 708)" />
+    <rect x="640" y="668" width="110" height="88" rx="24" fill="var(--ink)" transform="rotate(5 695 712)" />
+    <path d="M430 880v26M970 880v26" stroke="var(--bg)" stroke-opacity="0.7" stroke-width="8" stroke-linecap="round" />
+  </g>
+
+  <!-- Side table and cup -->
+  <g data-depth="1.1">
+    <ellipse cx="1110" cy="810" rx="70" ry="14" fill="var(--bg)" opacity="0.9" />
+    <path d="M1110 820v80M1080 900h60" stroke="var(--bg)" stroke-opacity="0.9" stroke-width="6" stroke-linecap="round" />
+    <rect x="1094" y="776" width="30" height="30" rx="6" fill="var(--rust)" />
+  </g>
+
+  <!-- Plant -->
+  <g data-depth="1.25">
+    <path d="M1250 900h140l-18-150h-104z" fill="var(--bg)" opacity="0.9" />
+    <g fill="var(--ink)">
+      <path d="M1320 750c-10-90-80-150-150-160 30 70 70 130 150 160z" />
+      <path d="M1320 750c20-110 90-170 170-180-30 90-80 150-170 180z" />
+      <path d="M1320 750c-40-70-30-170 10-240 30 80 30 170-10 240z" />
+      <path d="M1320 750c-60-30-140-20-190 30 70 20 130 10 190-30z" />
+      <path d="M1320 750c60-40 150-40 200 0-70 30-140 30-200 0z" />
+    </g>
+  </g>
+
+  <!-- Framed art -->
+  <g data-depth="0.7">
+    <rect x="1210" y="320" width="150" height="180" rx="6" fill="none" stroke="var(--bg)" stroke-opacity="0.7" stroke-width="5" />
+    <circle cx="1285" cy="392" r="30" fill="var(--rust)" />
+    <path d="M1226 484l40-46 28 28 22-20 28 38z" fill="var(--ink)" />
+  </g>
+</svg>
+
+<style>
+  .hero-illustration { width: 100%; height: 100%; display: block; }
+</style>
