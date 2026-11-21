@@ -7,7 +7,7 @@ export interface Photo {
 
 export interface Property {
   slug: string;
-  /** Display name, e.g. "BTM Layout N°1" */
+  /** Display name, e.g. "Cassia" */
   name: string;
   number: string;
   area: string;
@@ -62,8 +62,8 @@ const coreAmenities = [
 
 export const properties: Property[] = [
   {
-    slug: 'btm-layout-1bhk',
-    name: 'BTM Layout N°1',
+    slug: 'cassia',
+    name: 'Cassia',
     number: '01',
     area: 'BTM Layout',
     city: 'Bengaluru',
@@ -94,8 +94,8 @@ export const properties: Property[] = [
   },
   {
     // TODO: replace with the second property's real details and photos.
-    slug: 'stay-no-2',
-    name: 'Stay N°2',
+    slug: 'aurelia',
+    name: 'Aurelia',
     number: '02',
     area: 'Bengaluru',
     city: 'Bengaluru',
