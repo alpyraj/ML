@@ -35,6 +35,13 @@ const slides = [
     <span class="grain" aria-hidden="true"></span>
   </div>
 
+  <svg class="hero-wave hero-wave--wide" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path data-hero-draw d="M-30 430 C 140 330, 320 560, 520 480 S 800 760, 1020 690 S 1200 500, 1330 600 S 1440 720, 1480 640" />
+  </svg>
+  <svg class="hero-wave hero-wave--narrow" viewBox="0 0 390 844" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path data-hero-draw d="M-20 300 C 60 230, 130 420, 210 350 S 340 250, 410 380" />
+  </svg>
+
   <div class="hero-grid">
     <h1 id="hero-title" class="hero-title">
       <span class="visually-hidden">Marvelous Living, {site.tagline.toLowerCase()}</span>
@@ -103,7 +110,30 @@ const slides = [
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
+  /* A hand-drawn rust line, echoing the one in the guest section. */
+  .hero-wave {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .hero-wave path {
+    fill: none;
+    stroke: color-mix(in srgb, var(--rust) 75%, var(--bg));
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.9;
+  }
+  .hero-wave--narrow { display: none; }
+  @media (max-width: 760px) {
+    .hero-wave--wide { display: none; }
+    .hero-wave--narrow { display: block; }
+  }
+
   .hero-grid {
+    position: relative;
     min-height: 100svh;
     display: grid;
     grid-template-columns: 1fr 1fr;

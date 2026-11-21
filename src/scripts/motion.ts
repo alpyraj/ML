@@ -63,6 +63,14 @@ function hero() {
     .from('[data-hero-rise]', { yPercent: 105, duration: 1.4, stagger: 0.14 }, 0.2)
     .from('[data-hero-fade]', { y: 24, autoAlpha: 0, duration: 1, stagger: 0.1 }, 0.8);
 
+  // The wavy rust line draws itself in, then drifts up slightly as the page scrolls.
+  heroEl.querySelectorAll<SVGPathElement>('[data-hero-draw]').forEach((wave) => {
+    const length = wave.getTotalLength();
+    gsap.set(wave, { strokeDasharray: length, strokeDashoffset: length });
+    gsap.to(wave, { strokeDashoffset: 0, duration: 2.6, ease: 'power2.inOut', delay: 0.6 });
+    gsap.fromTo(wave, { yPercent: 0 }, { yPercent: -8, ease: 'none', scrollTrigger: { trigger: heroEl, start: 'top top', end: 'bottom top', scrub: true } });
+  });
+
   gsap.timeline({ scrollTrigger: { trigger: heroEl, start: 'top top', end: 'bottom top', scrub: true } })
     .to('[data-hero-word="left"]', { xPercent: -18, ease: 'none' }, 0)
     .to('[data-hero-word="right"]', { xPercent: 18, ease: 'none' }, 0)
