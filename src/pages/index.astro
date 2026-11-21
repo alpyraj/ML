@@ -78,8 +78,8 @@ const heroPhoto = properties[0].hero;
   </section>
 
   <!-- PILLARS -->
-  <section class="band-wrap" id="why" aria-labelledby="why-title">
-    <div class="band on-olive" data-band>
+  <section class="pillars-section" id="why" aria-labelledby="why-title">
+    <div>
       <div class="container section">
         <p class="eyebrow">Why stay with us</p>
         <h2 id="why-title" data-split>More home than hotel</h2>
@@ -97,9 +97,10 @@ const heroPhoto = properties[0].hero;
   </section>
 
   <!-- PROOF -->
-  <section class="section proof on-dark" aria-labelledby="proof-title">
-    <svg class="gold-line" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-      <path data-draw d="M-20 320 C 220 120, 420 380, 640 220 S 1020 40, 1180 200 S 1380 300, 1460 120" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round" />
+  <section class="band-wrap" aria-labelledby="proof-title">
+  <div class="section proof on-dark band" data-band>
+    <svg class="draw-line" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path data-draw d="M-20 320 C 220 120, 420 380, 640 220 S 1020 40, 1180 200 S 1380 300, 1460 120" fill="none" stroke="var(--rust)" stroke-width="2.5" stroke-linecap="round" />
     </svg>
     <div class="container">
       <p class="eyebrow">Guests say</p>
@@ -113,6 +114,7 @@ const heroPhoto = properties[0].hero;
         ))}
       </dl>
     </div>
+  </div>
   </section>
 
   <!-- LONG STAYS -->
@@ -125,7 +127,7 @@ const heroPhoto = properties[0].hero;
       <div class="stack">
         <p class="lead">Relocating, on a project, or between homes? Our apartments are set up to live in, with a full kitchen, a proper workspace and free parking.</p>
         <p>Tell us your dates and we'll share availability and the best rate for a longer stay.</p>
-        <a class="btn btn--whatsapp" href={site.whatsappEnquiry} target="_blank" rel="noopener">
+        <a class="btn" href={site.whatsappEnquiry} target="_blank" rel="noopener">
           Ask about a long stay<span class="visually-hidden"> on WhatsApp (opens in a new tab)</span>
         </a>
       </div>
@@ -204,8 +206,8 @@ const heroPhoto = properties[0].hero;
   .index-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 3rem; }
   .index-head { flex-direction: column; align-items: start; }
   .index-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(2rem, 5vw, 5rem); align-items: start; }
-  .index-list { border-top: 1px solid rgba(42, 27, 18, 0.15); }
-  .index-list li { border-bottom: 1px solid rgba(42, 27, 18, 0.15); }
+  .index-list { border-top: 1px solid var(--line); }
+  .index-list li { border-bottom: 1px solid var(--line); }
   .row {
     display: grid;
     grid-template-columns: 3.5rem 1fr auto;
@@ -233,31 +235,30 @@ const heroPhoto = properties[0].hero;
   /* ---------- Pillars band ---------- */
   .band-wrap { padding-inline: var(--band-inset, 0px); }
   .band { border-radius: var(--band-radius, 0px); overflow: hidden; }
-  .band h2 { margin-top: 1rem; max-width: 14ch; }
+  .pillars-section h2 { margin-top: 1rem; max-width: 14ch; }
   .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 3vw, 3rem); margin-top: clamp(3rem, 6vw, 5rem); }
-  .pillar { border-top: 1px solid rgba(246, 234, 218, 0.3); padding-top: 1.5rem; }
-  .pillar-num { display: block; color: var(--gold-tint); font-weight: 700; font-size: var(--step--1); margin-bottom: 2.5rem; }
+  .pillar { border-top: 1px solid var(--line); padding-top: 1.5rem; }
+  .pillar-num { display: block; color: var(--rust); font-weight: 700; font-size: var(--step--1); margin-bottom: 2.5rem; }
   .pillar h3 { font-size: var(--step-2); margin-bottom: 0.75rem; }
-  .pillar p { color: var(--ink-on-dark); opacity: 0.88; }
+  .pillar p { color: var(--ink-soft); }
   @media (max-width: 860px) { .pillars { grid-template-columns: 1fr; } }
 
   /* ---------- Proof ---------- */
   .proof { position: relative; overflow: hidden; }
   .proof .container { position: relative; z-index: 1; }
   .proof h2 { margin-top: 1rem; }
-  .proof h2 em { color: var(--gold); }
-  .gold-line { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.55; }
+  .proof h2 em { color: var(--ink-on-dark-soft); }
+  .draw-line { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.55; }
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: clamp(3rem, 6vw, 5rem); }
-  .stat { display: flex; flex-direction: column-reverse; gap: 0.5rem; border-top: 1px solid rgba(246, 234, 218, 0.2); padding-top: 1.25rem; }
+  .stat { display: flex; flex-direction: column-reverse; gap: 0.5rem; border-top: 1px solid var(--line-on-dark); padding-top: 1.25rem; }
   .stat dt { color: var(--ink-on-dark-soft); }
   .stat dd { font-size: var(--step-4); line-height: 1; color: var(--ink-on-dark); letter-spacing: -0.03em; }
   @media (max-width: 760px) { .stats { grid-template-columns: 1fr; } }
 
   /* ---------- Long stays ---------- */
-  .long { background: var(--rust-tint); }
+  .long { border-top: 1px solid var(--line); }
   .long-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 5rem); align-items: end; }
   .long h2 { margin-top: 1rem; }
-  .long .eyebrow { color: var(--rust-dark); }
   .long .stack { --stack: 1.25rem; }
   @media (max-width: 860px) { .long-grid { grid-template-columns: 1fr; } }
 </style>

@@ -107,7 +107,7 @@ function grow() {
   });
 }
 
-/** The gold line draws itself as the section scrolls past. */
+/** The accent line draws itself as the section scrolls past. */
 function drawLines() {
   document.querySelectorAll<SVGPathElement>('[data-draw]').forEach((path) => {
     const length = path.getTotalLength();

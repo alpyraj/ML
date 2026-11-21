@@ -1,23 +1,19 @@
-/* ---------- Brand tokens (carried over from marvelousliving.in) ---------- */
+/* ---------- Brand palette: four colours from marvelousliving.in ---------- */
 :root {
-  --bg: #faf1e4;
-  --bg-alt: #f1e2cc;
-  --bg-deep: #2a1b12;
-  --ink: #444d3b;
-  --ink-soft: #6b5744;
-  --ink-on-dark: #f6eada;
-  --ink-on-dark-soft: #c9b29b;
-  --olive: #4b5d3a;
-  --olive-dark: #38452b;
-  --rust: #a8482b;
-  --rust-dark: #7e3520;
-  --rust-tint: #f1d9c9;
-  /* Gold is too light for text on cream (2.3:1). Use it on dark grounds or for decoration. */
-  --gold: #c89b4a;
-  --gold-dark: #9c7530;
-  --gold-tint: #f3e4c2;
+  --bg: #faf1e4;        /* cream: page ground */
+  --ink: #444d3b;       /* dark olive ink: text */
+  --rust: #a8482b;      /* the one accent: buttons, links, highlights */
+  --bg-deep: #2a1b12;   /* deep brown: the one dark ground */
+
+  /* Derived tints, not new colours */
+  --ink-soft: color-mix(in srgb, var(--ink) 90%, var(--bg));
+  --bg-alt: color-mix(in srgb, var(--ink) 7%, var(--bg));
+  --line: color-mix(in srgb, var(--ink) 18%, transparent);
+  --ink-on-dark: var(--bg);
+  --ink-on-dark-soft: color-mix(in srgb, var(--bg) 72%, var(--bg-deep));
+  --line-on-dark: color-mix(in srgb, var(--bg) 18%, transparent);
+  --rust-dark: color-mix(in srgb, var(--rust) 80%, black);
   --white: #fffdf9;
-  --whatsapp: #25d366;
 
   --font-display: 'Fraunces Variable', 'Lora', Georgia, serif;
   --font-body: 'Manrope Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -124,10 +120,6 @@ em.accent, .accent { font-style: italic; color: var(--rust); }
 .btn:active { transform: scale(0.98); }
 .btn--ghost { --btn-fg: var(--ink); background: transparent; border-color: currentColor; }
 .btn--ghost:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-.btn--light { --btn-bg: var(--ink-on-dark); --btn-fg: var(--bg-deep); }
-.btn--light:hover { --btn-bg: var(--white); }
-.btn--whatsapp { --btn-bg: #1b7f45; --btn-fg: #fff; }
-.btn--whatsapp:hover { --btn-bg: #146536; }
 .btn .arrow { transition: transform 0.3s var(--ease-out); }
 .btn:hover .arrow { transform: translateX(4px); }
 
@@ -145,7 +137,7 @@ em.accent, .accent { font-style: italic; color: var(--rust); }
 
 /* ---------- Focus & accessibility ---------- */
 :focus-visible { outline: 3px solid var(--rust); outline-offset: 3px; border-radius: 6px; }
-.on-dark :focus-visible { outline-color: var(--gold); }
+.on-dark :focus-visible { outline-color: var(--ink-on-dark); }
 .skip-link {
   position: absolute;
   left: 1rem;
@@ -169,10 +161,7 @@ em.accent, .accent { font-style: italic; color: var(--rust); }
 /* Dark grounds */
 .on-dark { background: var(--bg-deep); color: var(--ink-on-dark); }
 .on-dark h2, .on-dark h3 { color: var(--ink-on-dark); }
-.on-dark .eyebrow { color: var(--gold); }
-.on-olive { background: var(--olive); color: var(--ink-on-dark); }
-.on-olive h2, .on-olive h3 { color: var(--ink-on-dark); }
-.on-olive .eyebrow { color: var(--gold-tint); }
+.on-dark .eyebrow { color: var(--ink-on-dark-soft); }
 
 /* Motion is decorative only: with reduced motion everything is shown as-is. */
 @media (prefers-reduced-motion: reduce) {

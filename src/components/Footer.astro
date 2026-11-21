@@ -48,7 +48,7 @@ const year = new Date().getFullYear();
     white-space: nowrap;
     margin-bottom: clamp(2.5rem, 6vw, 5rem);
   }
-  .big em { color: var(--gold); }
+  .big em { color: var(--ink-on-dark-soft); }
   .cols { display: grid; gap: 2.5rem; grid-template-columns: 2fr repeat(3, 1fr); }
   .logo { height: 56px; width: auto; margin-bottom: 1.25rem; }
   .intro { color: var(--ink-on-dark-soft); max-width: 36ch; }
@@ -58,12 +58,12 @@ const year = new Date().getFullYear();
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--gold);
+    color: var(--ink-on-dark-soft);
     margin-bottom: 1rem;
   }
   ul { display: grid; gap: 0.35rem; }
   a { text-decoration: none; color: var(--ink-on-dark); overflow-wrap: anywhere; }
   a:hover { text-decoration: underline; text-underline-offset: 4px; }
-  .legal { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid rgba(246, 234, 218, 0.14); color: var(--ink-on-dark-soft); font-size: var(--step--1); max-width: none; }
+  .legal { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line-on-dark); color: var(--ink-on-dark-soft); font-size: var(--step--1); max-width: none; }
   @media (max-width: 860px) { .cols { grid-template-columns: 1fr 1fr; } .cols > :first-child { grid-column: 1 / -1; } }
 </style>

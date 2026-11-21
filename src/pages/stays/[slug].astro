@@ -125,7 +125,7 @@ const facts = [
           <a class="btn" href={stay.airbnbUrl} target="_blank" rel="noopener">
             Book on Airbnb<span class="visually-hidden"> (opens in a new tab)</span>
           </a>
-          <a class="btn btn--whatsapp" href={site.whatsappEnquiry} target="_blank" rel="noopener">
+          <a class="btn btn--ghost" href={site.whatsappEnquiry} target="_blank" rel="noopener">
             Enquire on WhatsApp<span class="visually-hidden"> (opens in a new tab)</span>
           </a>
         </div>
@@ -186,7 +186,7 @@ const facts = [
   .block h2 { font-size: var(--step-2); margin-block: 1rem 1.5rem; max-width: 24ch; }
 
   .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2.5rem; }
-  .facts div { border-top: 1px solid rgba(42, 27, 18, 0.15); padding-top: 0.75rem; }
+  .facts div { border-top: 1px solid var(--line); padding-top: 0.75rem; }
   .facts dt { font-size: var(--step--1); color: var(--ink-soft); }
   .facts dd { font-family: var(--font-display); font-size: var(--step-1); }
 
@@ -198,7 +198,7 @@ const facts = [
   .shot-btn:hover img, .shot-btn:focus-visible img { transform: scale(1.04); }
 
   .amenities { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem 2.5rem; }
-  .amenities li { border-top: 1px solid rgba(42, 27, 18, 0.15); padding-top: 1rem; }
+  .amenities li { border-top: 1px solid var(--line); padding-top: 1rem; }
   .amenities h3 { font-size: var(--step-1); margin-bottom: 0.4rem; }
   .amenities p { color: var(--ink-soft); }
 
@@ -224,7 +224,7 @@ const facts = [
   .lb-close { position: absolute; right: 1rem; top: 1rem; z-index: 2; }
   .lb-nav { display: flex; justify-content: center; gap: 1rem; margin-top: 0.75rem; }
   .lightbox button { min-width: 48px; min-height: 48px; border-radius: 50%; border: 1px solid var(--ink-on-dark-soft); background: var(--bg-deep); color: var(--ink-on-dark); font-size: 1.4rem; cursor: pointer; }
-  .lightbox button:focus-visible { outline: 3px solid var(--gold); }
+  .lightbox button:focus-visible { outline: 3px solid var(--ink-on-dark); }
 
   @media (max-width: 960px) {
     .layout { grid-template-columns: 1fr; }
