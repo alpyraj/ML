@@ -1,0 +1,202 @@
+---
+import { properties } from '../data/properties';
+import { site } from '../data/site';
+
+const cassia = properties[0];
+// Real photos, shown near their native size inside the arch so they stay sharp.
+const slides = [cassia.gallery[0], cassia.gallery[1], cassia.gallery[2], cassia.gallery[4]].map((photo) => ({
+  ...photo,
+  caption: `${cassia.name} · ${photo.alt.split(' with ')[0]}`,
+}));
+---
+
+<section class="hero" aria-labelledby="hero-title" data-hero>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="eyebrow" data-hero-fade>{site.tagline}</p>
+      <h1 id="hero-title" class="hero-title">
+        <span class="line" data-hero-line>Marvelous</span>
+        <span class="line line--accent" data-hero-line><em>Living</em></span>
+      </h1>
+      <p class="hero-lead" data-hero-fade>
+        Whole homes for short and medium stays, set up for working, resting and staying a while.
+      </p>
+      <div class="hero-actions" data-hero-fade>
+        <a class="btn" href="/stays">Explore our stays <span class="arrow" aria-hidden="true">→</span></a>
+        <p class="rating"><strong>4.9 / 5</strong> from Airbnb guests</p>
+      </div>
+    </div>
+
+    <div class="hero-visual" data-hero-visual>
+      <span class="arch-outline" aria-hidden="true"></span>
+      <div class="arch" data-hero-arch>
+        {slides.map((s, i) => (
+          <img
+            src={s.src}
+            alt={i === 0 ? s.alt : ''}
+            width={s.width}
+            height={s.height}
+            class:list={['slide', { 'is-active': i === 0 }]}
+            fetchpriority={i === 0 ? 'high' : undefined}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            data-slide={i}
+            data-caption={s.caption}
+          />
+        ))}
+      </div>
+      <svg class="badge" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+        <defs><path id="badge-circle" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0" /></defs>
+        <text><textPath href="#badge-circle" textLength="286" lengthAdjust="spacing">Whole homes · Bengaluru · Stay a while ·</textPath></text>
+      </svg>
+      <div class="hero-meta">
+        <p class="caption" aria-hidden="true" data-hero-caption>{slides[0].caption}</p>
+        <button type="button" class="slide-toggle" data-slide-toggle aria-pressed="false">
+          <span class="visually-hidden" data-slide-toggle-label>Pause photo slideshow</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" class="icon-pause"><path d="M4 3h3v10H4zM9 3h3v10H9z" /></svg>
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" class="icon-play"><path d="M4 3l9 5-9 5z" /></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: clamp(7rem, 12vw, 9rem) var(--gutter) clamp(3rem, 6vw, 5rem);
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow-x: clip;
+  }
+  .hero-inner {
+    width: min(100%, calc(var(--container) + 8rem));
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: center;
+  }
+  .hero-title { display: flex; flex-direction: column; margin-block: 1.25rem 1.75rem; }
+  .line {
+    display: block;
+    font-size: clamp(3.4rem, 1rem + 8.4vw, 10rem);
+    line-height: 0.86;
+    letter-spacing: -0.045em;
+    font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 144;
+  }
+  .line--accent { color: var(--rust); padding-left: clamp(1.5rem, 7vw, 7rem); }
+  .line--accent em { font-style: italic; }
+  .hero-lead { font-size: var(--step-1); line-height: 1.45; color: var(--ink-soft); max-width: 28ch; }
+  .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.75rem; margin-top: 2rem; }
+  .rating { color: var(--ink-soft); font-size: var(--step--1); }
+  .rating strong { font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; color: var(--ink); margin-right: 0.35rem; }
+
+  .hero-visual { position: relative; justify-self: center; width: min(100%, 460px); }
+  .arch {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    border-radius: 999px 999px var(--radius-lg) var(--radius-lg);
+    overflow: hidden;
+    background: var(--bg-alt);
+    isolation: isolate;
+  }
+  .arch-outline {
+    position: absolute;
+    inset: -14px -14px 34px 14px;
+    border: 1.5px solid var(--line);
+    border-color: color-mix(in srgb, var(--ink) 35%, transparent);
+    border-radius: 999px 999px var(--radius-lg) var(--radius-lg);
+    translate: 18px -18px;
+    pointer-events: none;
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.08);
+    transition: opacity 1.2s var(--ease-out), transform 6s linear;
+  }
+  .slide.is-active { opacity: 1; transform: scale(1); }
+  .badge {
+    position: absolute;
+    left: -54px;
+    bottom: 64px;
+    width: 120px;
+    height: 120px;
+    padding: 6px;
+    border-radius: 50%;
+    background: var(--rust);
+    fill: var(--white);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    animation: spin 22s linear infinite;
+    box-shadow: var(--shadow-soft);
+  }
+  @keyframes spin { to { rotate: 360deg; } }
+  .hero-meta { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1rem; }
+  .caption { font-size: var(--step--1); color: var(--ink-soft); }
+  .slide-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, var(--ink) 30%, transparent);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .slide-toggle svg { width: 14px; height: 14px; fill: currentColor; }
+  .slide-toggle .icon-play { display: none; }
+  .slide-toggle[aria-pressed='true'] .icon-play { display: block; }
+  .slide-toggle[aria-pressed='true'] .icon-pause { display: none; }
+
+  @media (max-width: 860px) {
+    .hero { min-height: auto; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-visual { width: min(100% - 20px, 380px); }
+    .arch-outline { translate: 10px -10px; inset: -8px -8px 34px 8px; }
+    .badge { left: auto; right: -12px; bottom: 56px; width: 96px; height: 96px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .badge { animation: none; }
+    .slide { transition: none; transform: none; }
+  }
+</style>
+
+<script>
+  // Cross-fading arch slideshow with a pause control (WCAG 2.2.2).
+  const slides = Array.from(document.querySelectorAll<HTMLImageElement>('[data-slide]'));
+  const caption = document.querySelector<HTMLElement>('[data-hero-caption]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-slide-toggle]');
+  const label = document.querySelector<HTMLElement>('[data-slide-toggle-label]');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let index = 0;
+  let timer: number | undefined;
+
+  const show = (i: number) => {
+    slides[index].classList.remove('is-active');
+    index = (i + slides.length) % slides.length;
+    slides[index].classList.add('is-active');
+    if (caption) caption.textContent = slides[index].dataset.caption || '';
+  };
+  const play = () => { timer = window.setInterval(() => show(index + 1), 4500); };
+  const pause = () => { window.clearInterval(timer); timer = undefined; };
+
+  const setPaused = (paused: boolean) => {
+    toggle?.setAttribute('aria-pressed', String(paused));
+    if (label) label.textContent = paused ? 'Play photo slideshow' : 'Pause photo slideshow';
+    paused ? pause() : play();
+  };
+
+  if (slides.length > 1) {
+    setPaused(reduced);
+    toggle?.addEventListener('click', () => setPaused(timer !== undefined));
+  } else if (toggle) {
+    toggle.hidden = true;
+  }
+</script>

@@ -50,29 +50,23 @@ function revealBlocks() {
   });
 }
 
-/** Home hero: the two halves of the wordmark drift apart and the photo opens up. */
+/** Home hero: the headline rises line by line, the arch opens upward, and on
+ *  scroll the type and the arch drift apart slightly. */
 function hero() {
   const heroEl = document.querySelector('[data-hero]');
   if (!heroEl) return;
-  const intro = gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.4 } });
-  intro
-    .from('[data-hero-word="left"]', { yPercent: 40, autoAlpha: 0 })
-    .from('[data-hero-word="right"]', { yPercent: 40, autoAlpha: 0 }, '<0.1')
-    .from('[data-hero-photo]', { clipPath: 'inset(14% 14% 14% 14% round 48px)', duration: 1.8 }, 0)
-    .from('[data-hero-photo] svg', { scale: 1.2, duration: 2.2 }, 0)
-    .from('[data-hero-photo] [data-depth]', { y: 60, autoAlpha: 0, duration: 1.6, stagger: 0.08 }, 0.3);
+  gsap.timeline({ defaults: { ease: 'expo.out' } })
+    .from('[data-hero-arch]', { clipPath: 'inset(100% 0% 0% 0% round 999px 999px 28px 28px)', duration: 1.6 }, 0)
+    .from('[data-hero-arch] .slide.is-active', { scale: 1.25, duration: 2.4 }, 0)
+    .from('[data-hero-line]', { yPercent: 100, autoAlpha: 0, duration: 1.3, stagger: 0.12 }, 0.15)
+    .from('[data-hero-fade]', { y: 24, autoAlpha: 0, duration: 1, stagger: 0.08 }, 0.5)
+    .from('.arch-outline, .badge', { autoAlpha: 0, duration: 1.2 }, 0.9);
 
   const mm = gsap.matchMedia();
-  mm.add('(min-width: 761px)', () => {
+  mm.add('(min-width: 861px)', () => {
     gsap.timeline({ scrollTrigger: { trigger: heroEl, start: 'top top', end: 'bottom top', scrub: true } })
-      .to('[data-hero-word="left"]', { xPercent: -18, ease: 'none' }, 0)
-      .to('[data-hero-word="right"]', { xPercent: 18, ease: 'none' }, 0)
-      .to('[data-hero-photo] svg', { yPercent: 8, ease: 'none' }, 0);
-    // Layers nearer the viewer move further, giving the room some depth.
-    gsap.utils.toArray<SVGGElement>('[data-hero-photo] [data-depth]').forEach((layer) => {
-      const depth = Number(layer.dataset.depth || 0);
-      gsap.to(layer, { y: -140 * depth, ease: 'none', scrollTrigger: { trigger: heroEl, start: 'top top', end: 'bottom top', scrub: true } });
-    });
+      .to('[data-hero-line]', { yPercent: -30, ease: 'none', stagger: 0.05 }, 0)
+      .to('[data-hero-visual]', { yPercent: 12, ease: 'none' }, 0);
   });
 }
 
