@@ -1,8 +1,7 @@
 ---
 import { properties } from '../data/properties';
 import { site } from '../data/site';
-import '@fontsource-variable/bodoni-moda/opsz.css';
-import '@fontsource-variable/bodoni-moda/opsz-italic.css';
+import '@fontsource/young-serif/400.css';
 
 const cassia = properties[0];
 const pick = (match: string, room: string) => {
@@ -118,16 +117,16 @@ const slides = [
     display: block;
     overflow: hidden;
     padding-bottom: 0.06em;
-    font-family: 'Bodoni Moda Variable', var(--font-display);
+    font-family: 'Young Serif', var(--font-display);
     font-weight: 400;
-    font-size: clamp(3.2rem, 12.6vw, 15rem);
+    font-size: clamp(2.4rem, 12.3vw, 15rem);
     line-height: 0.9;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.01em;
     text-transform: uppercase;
     color: var(--ink-on-dark);
   }
   .word > span { display: inline-block; }
-  .word em { font-style: italic; letter-spacing: -0.02em; }
+  .word em { font-style: normal; }
   .word--top { grid-column: 1 / -1; grid-row: 1; justify-self: start; }
   .word--bottom { grid-column: 1 / -1; grid-row: 3; justify-self: end; }
 
@@ -204,7 +203,7 @@ const slides = [
   @media (max-width: 760px) {
     .hero-grid { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto auto; padding-top: 6.5rem; }
     .hero-copy { grid-column: 1; align-self: end; }
-    .word { font-size: clamp(3rem, 15.5vw, 6rem); }
+    .word { font-size: 12.2vw; }
   }
   @media (prefers-reduced-motion: reduce) {
     .slide { transition: none; transform: none; }
