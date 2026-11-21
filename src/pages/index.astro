@@ -141,12 +141,15 @@ const heroPhoto = properties[0].hero;
   /* ---------- Hero ---------- */
   .hero {
     position: relative;
+    isolation: isolate;
     min-height: 100svh;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
-    padding: 6.5rem var(--gutter) 2.5rem;
+    padding: 7rem var(--gutter) 2.5rem;
     overflow: clip;
+    color: var(--ink-on-dark);
+    background: var(--bg-deep);
   }
   .hero-title { display: contents; }
   .word {
@@ -156,39 +159,41 @@ const heroPhoto = properties[0].hero;
     line-height: 0.82;
     letter-spacing: -0.045em;
     font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 144;
+    color: var(--ink-on-dark);
     will-change: transform;
   }
   .word--top { grid-row: 1; grid-column: 1; justify-self: start; }
-  .word--bottom { grid-row: 3; grid-column: 1; justify-self: end; align-self: end; color: var(--rust); }
+  .word--bottom { grid-row: 3; grid-column: 1; justify-self: end; align-self: end; }
   .word--bottom em { font-style: italic; }
+  /* Full-bleed photo behind everything, darkened so cream text stays readable. */
   .hero-photo {
-    grid-row: 1 / 4;
-    grid-column: 1;
-    align-self: center;
-    justify-self: center;
-    width: min(34vw, 500px);
-    aspect-ratio: 4 / 5;
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    background: var(--bg-alt);
-    box-shadow: var(--shadow-soft);
-    z-index: 1;
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--bg-deep);
   }
-  .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 60%; }
+  .hero-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, color-mix(in srgb, var(--bg-deep) 55%, transparent) 0%, color-mix(in srgb, var(--bg-deep) 20%, transparent) 40%, color-mix(in srgb, var(--bg-deep) 78%, transparent) 100%);
+  }
   .hero-copy {
     grid-row: 3;
     grid-column: 1;
     align-self: end;
     justify-self: start;
-    max-width: 17rem;
+    max-width: 20rem;
     z-index: 3;
     padding-block: 1.5rem;
   }
-  .hero-lead { margin-top: 0.75rem; font-size: var(--step-0); color: var(--ink-soft); }
+  .hero .eyebrow { color: var(--ink-on-dark); }
+  .hero-lead { margin-top: 0.75rem; font-size: var(--step-0); color: var(--ink-on-dark); }
   .hero-actions { margin-top: 1.25rem; }
   @media (max-width: 760px) {
-    .hero { grid-template-rows: auto auto auto auto; gap: 1.25rem; min-height: auto; }
-    .hero-photo { grid-row: 2; width: 100%; aspect-ratio: 4 / 4; }
+    .hero { grid-template-rows: auto 1fr auto auto; gap: 1rem; }
     .word--bottom { grid-row: 3; }
     .hero-copy { grid-row: 4; padding-block: 0; max-width: none; }
   }

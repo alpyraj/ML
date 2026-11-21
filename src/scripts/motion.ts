@@ -58,14 +58,15 @@ function hero() {
   intro
     .from('[data-hero-word="left"]', { yPercent: 40, autoAlpha: 0 })
     .from('[data-hero-word="right"]', { yPercent: 40, autoAlpha: 0 }, '<0.1')
-    .from('[data-hero-photo]', { clipPath: 'inset(18% 18% 18% 18% round 48px)', scale: 1.08 }, '<0.05');
+    .from('[data-hero-photo]', { clipPath: 'inset(14% 14% 14% 14% round 48px)', duration: 1.8 }, 0)
+    .from('[data-hero-photo] img', { scale: 1.25, duration: 2.2 }, 0);
 
   const mm = gsap.matchMedia();
   mm.add('(min-width: 761px)', () => {
     gsap.timeline({ scrollTrigger: { trigger: heroEl, start: 'top top', end: 'bottom top', scrub: true } })
       .to('[data-hero-word="left"]', { xPercent: -18, ease: 'none' }, 0)
       .to('[data-hero-word="right"]', { xPercent: 18, ease: 'none' }, 0)
-      .to('[data-hero-photo]', { scale: 1.12, yPercent: 8, ease: 'none' }, 0);
+      .to('[data-hero-photo] img', { yPercent: 12, scale: 1.08, ease: 'none' }, 0);
   });
 }
 
