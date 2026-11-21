@@ -79,17 +79,30 @@ h3 { font-size: var(--step-1); line-height: 1.2; letter-spacing: -0.01em; font-v
 p { text-wrap: pretty; max-width: 62ch; }
 em.accent, .accent { font-style: italic; color: var(--rust); }
 
+/* Eyebrow: a small hand-drawn squiggle (the same motif as the wavy lines)
+   followed by an italic serif label, rather than spaced-out capitals. */
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  font-size: var(--step--1);
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  gap: 0.7rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--step-0);
+  font-weight: 400;
+  font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 36;
+  letter-spacing: 0;
+  line-height: 1.2;
   color: var(--rust);
 }
-.eyebrow::before { content: ''; width: 2rem; height: 1px; background: currentColor; }
+.eyebrow::before {
+  content: '';
+  flex: none;
+  width: 2.6rem;
+  height: 0.7rem;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 14'%3E%3Cpath d='M1 8c4-6 8-6 12 0s8 6 12 0 8-6 12 0 8 6 12 0' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 14'%3E%3Cpath d='M1 8c4-6 8-6 12 0s8 6 12 0 8-6 12 0 8 6 12 0' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
 .lead { font-size: var(--step-1); line-height: 1.45; color: var(--ink-soft); }
 
 /* ---------- Layout ---------- */
