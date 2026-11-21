@@ -1,6 +1,8 @@
 ---
 import { properties } from '../data/properties';
 import { site } from '../data/site';
+import '@fontsource-variable/bodoni-moda/opsz.css';
+import '@fontsource-variable/bodoni-moda/opsz-italic.css';
 
 const cassia = properties[0];
 const pick = (match: string, room: string) => {
@@ -116,11 +118,11 @@ const slides = [
     display: block;
     overflow: hidden;
     padding-bottom: 0.06em;
-    font-family: var(--font-display);
+    font-family: 'Bodoni Moda Variable', var(--font-display);
     font-weight: 400;
     font-size: clamp(3.2rem, 12.6vw, 15rem);
     line-height: 0.9;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.03em;
     text-transform: uppercase;
     color: var(--ink-on-dark);
   }
