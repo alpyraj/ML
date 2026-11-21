@@ -63,12 +63,15 @@ function hero() {
     .from('[data-hero-rise]', { yPercent: 105, duration: 1.4, stagger: 0.14 }, 0.2)
     .from('[data-hero-fade]', { y: 24, autoAlpha: 0, duration: 1, stagger: 0.1 }, 0.8);
 
-  // The wavy rust line draws itself in, then drifts up slightly as the page scrolls.
+  // The wavy rust line starts as a short stroke on load, then draws itself
+  // across the photo as the visitor scrolls (like the guest-section line).
   heroEl.querySelectorAll<SVGPathElement>('[data-hero-draw]').forEach((wave) => {
     const length = wave.getTotalLength();
     gsap.set(wave, { strokeDasharray: length, strokeDashoffset: length });
-    gsap.to(wave, { strokeDashoffset: 0, duration: 2.6, ease: 'power2.inOut', delay: 0.6 });
-    gsap.fromTo(wave, { yPercent: 0 }, { yPercent: -8, ease: 'none', scrollTrigger: { trigger: heroEl, start: 'top top', end: 'bottom top', scrub: true } });
+    gsap.to(wave, { strokeDashoffset: length * 0.85, duration: 1.4, ease: 'power2.out', delay: 0.8 });
+    gsap.timeline({ scrollTrigger: { trigger: heroEl, start: 'top top', end: '40% top', scrub: 0.6 } })
+      .fromTo(wave, { strokeDashoffset: length * 0.85 }, { strokeDashoffset: 0, ease: 'none', immediateRender: false }, 0)
+      .to(wave, { yPercent: -6, ease: 'none' }, 0);
   });
 
   gsap.timeline({ scrollTrigger: { trigger: heroEl, start: 'top top', end: 'bottom top', scrub: true } })
