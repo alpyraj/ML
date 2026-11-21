@@ -39,14 +39,14 @@ const img = (src: string, alt: string, width: number, height: number): Photo => 
 });
 
 const photos = {
-  living: img('livingroom.png', 'Living room with a pink sofa and a textured feature wall', 639, 654),
-  bedroom: img('bedroom.png', 'A corner of the apartment', 720, 499),
-  tv: img('tvunit.png', 'TV unit in the living room', 720, 507),
-  detail: img('interiordetail.png', 'Interior detail', 731, 499),
-  bedroom2: img('bedroom2.png', 'Bedroom with a double bed', 720, 507),
-  dining: img('dining.png', 'Dining area', 720, 812),
-  kitchen: img('kitchen.png', 'Kitchen with cookware', 720, 1280),
-  kitchen2: img('kitchen2.png', 'Kitchen detail', 523, 405),
+  living: img('livingroom.webp', 'Living room with a pink sofa and a textured feature wall', 639, 654),
+  bedroom: img('bedroom.webp', 'A corner of the apartment', 720, 499),
+  tv: img('tvunit.webp', 'TV unit in the living room', 720, 507),
+  detail: img('interiordetail.webp', 'Interior detail', 731, 499),
+  bedroom2: img('bedroom2.webp', 'Bedroom with a double bed', 720, 507),
+  dining: img('dining.webp', 'Dining area', 720, 812),
+  kitchen: img('kitchen.webp', 'Kitchen with cookware', 720, 1280),
+  kitchen2: img('kitchen2.webp', 'Kitchen detail', 523, 405),
 };
 
 const coreAmenities = [

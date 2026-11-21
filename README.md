@@ -27,8 +27,8 @@ npm run build    # static site in dist/
 ## Photos
 
 Photos are served from `public/images/` using the same file names as the current site
-(`livingroom.png`, `bedroom.png`, `bedroom2.png`, `tvunit.png`, `interiordetail.png`,
-`dining.png`, `kitchen.png`, `kitchen2.png`). Higher-resolution originals (2000 px wide or more)
+(`livingroom.webp`, `bedroom.webp`, `bedroom2.webp`, `tvunit.webp`, `interiordetail.webp`,
+`dining.webp`, `kitchen.webp`, `kitchen2.webp`), converted from the photos on the current site. Higher-resolution originals (2000 px wide or more)
 will make the large hero photos much sharper.
 
 ## Accessibility

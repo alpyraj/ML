@@ -86,14 +86,23 @@ function bands() {
   });
 }
 
-/** Property hero photo grows from the container width to near full-bleed. */
+/** Property photos open from a smaller rounded window, then drift gently on scroll. */
 function grow() {
-  document.querySelectorAll<HTMLElement>('[data-grow]').forEach((fig) => {
-    gsap.to(fig, {
-      width: '100%',
-      borderRadius: 0,
+  const figs = gsap.utils.toArray<HTMLElement>('[data-grow]');
+  if (!figs.length) return;
+  gsap.from(figs, {
+    clipPath: 'inset(12% 12% 12% 12% round 32px)',
+    duration: 1.4,
+    ease: 'expo.out',
+    stagger: 0.12,
+  });
+  figs.forEach((fig) => {
+    const img = fig.querySelector('img');
+    if (!img) return;
+    gsap.fromTo(img, { scale: 1.08 }, {
+      scale: 1,
       ease: 'none',
-      scrollTrigger: { trigger: fig, start: 'top 70%', end: 'center center', scrub: true },
+      scrollTrigger: { trigger: fig, start: 'top bottom', end: 'bottom top', scrub: true },
     });
   });
 }

@@ -10,6 +10,7 @@ export function getStaticPaths() {
 }
 interface Props { stay: Property }
 const { stay } = Astro.props;
+const heroSide = stay.gallery.filter((g) => g.src !== stay.hero.src).slice(0, 2);
 const others = properties.filter((p) => p.slug !== stay.slug);
 const facts = [
   { label: 'Sleeps', value: `${stay.guests} guests` },
@@ -32,16 +33,23 @@ const facts = [
       <p class="sub">{stay.type} in {stay.area}, {stay.city}</p>
     </header>
 
-    <figure class="hero" data-grow>
-      <img
-        src={stay.hero.src}
-        alt={stay.hero.alt}
-        width={stay.hero.width}
-        height={stay.hero.height}
-        fetchpriority="high"
-        style={`view-transition-name: photo-${stay.slug}`}
-      />
-    </figure>
+    <div class="hero">
+      <figure class="hero-main" data-grow>
+        <img
+          src={stay.hero.src}
+          alt={stay.hero.alt}
+          width={stay.hero.width}
+          height={stay.hero.height}
+          fetchpriority="high"
+          style={`view-transition-name: photo-${stay.slug}`}
+        />
+      </figure>
+      {heroSide.map((photo) => (
+        <figure class="hero-side" data-grow>
+          <img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} />
+        </figure>
+      ))}
+    </div>
 
     <div class="container layout">
       <div class="content">
@@ -159,14 +167,18 @@ const facts = [
   .title { font-size: var(--step-4); margin-top: 1.25rem; }
   .sub { margin-top: 0.75rem; font-size: var(--step-1); color: var(--ink-soft); }
 
+  /* A bento of three photos keeps each one near its native size, so they stay sharp. */
   .hero {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: clamp(0.5rem, 1.2vw, 1rem);
     margin: clamp(2rem, 5vw, 4rem) auto 0;
     width: min(100% - 2 * var(--gutter), var(--container));
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    aspect-ratio: 16 / 9;
-    background: var(--bg-alt);
+    height: min(72vh, 680px);
   }
+  .hero figure { border-radius: var(--radius-lg); overflow: hidden; background: var(--bg-alt); }
+  .hero-main { grid-row: span 2; }
   .hero img { width: 100%; height: 100%; object-fit: cover; }
 
   .layout { display: grid; grid-template-columns: 1fr 340px; gap: clamp(2rem, 6vw, 6rem); align-items: start; padding-block: var(--section-pad); }
@@ -220,7 +232,9 @@ const facts = [
     .book-card { grid-template-columns: 1fr 1fr; border-radius: var(--radius-lg) var(--radius-lg) 0 0; padding: 0.85rem var(--gutter) calc(0.85rem + env(safe-area-inset-bottom)); }
     .book-rating, .book-note { display: none; }
     :global(body) { padding-bottom: 5rem; }
-    .hero { aspect-ratio: 4 / 3; }
+    .hero { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; height: auto; }
+    .hero-main { grid-row: auto; grid-column: span 2; aspect-ratio: 4 / 3; }
+    .hero-side { aspect-ratio: 1; }
   }
   @media (max-width: 640px) {
     .facts { grid-template-columns: repeat(2, 1fr); }
