@@ -1,0 +1,50 @@
+---
+import type { Property } from '../data/properties';
+interface Props { stay: Property; headingLevel?: 'h2' | 'h3' }
+const { stay, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+---
+
+<article class="card" data-reveal>
+  <a href={`/stays/${stay.slug}`} class="link">
+    <div class="media">
+      <img
+        src={stay.hero.src}
+        alt=""
+        width={stay.hero.width}
+        height={stay.hero.height}
+        loading="lazy"
+        decoding="async"
+        style={`view-transition-name: photo-${stay.slug}`}
+      />
+      <span class="num" aria-hidden="true">{stay.number}</span>
+    </div>
+    <div class="body">
+      <H class="name">{stay.name}</H>
+      <p class="meta">{stay.area}, {stay.city}{stay.draft && ' · Photos coming soon'}</p>
+      <ul class="chips" role="list" aria-label="Key facts">
+        <li class="chip">{stay.type}</li>
+        <li class="chip">{stay.guests} guests</li>
+        {stay.parking && <li class="chip">Free parking</li>}
+      </ul>
+    </div>
+  </a>
+</article>
+
+<style>
+  .link { display: block; text-decoration: none; color: inherit; }
+  .media { position: relative; overflow: hidden; border-radius: var(--radius-lg); aspect-ratio: 4 / 3; background: var(--bg-alt); }
+  .media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--ease-out); }
+  .link:hover img, .link:focus-visible img { transform: scale(1.05); }
+  .num {
+    position: absolute; left: 1rem; top: 1rem;
+    padding: 0.2rem 0.75rem; border-radius: 999px;
+    background: var(--bg); color: var(--ink);
+    font-weight: 700; font-size: var(--step--1);
+  }
+  .body { padding: 1.25rem 0.25rem 0; }
+  .name { font-size: var(--step-2); }
+  .link:hover .name { color: var(--rust); }
+  .meta { color: var(--ink-soft); margin-top: 0.35rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+</style>

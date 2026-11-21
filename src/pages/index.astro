@@ -1,0 +1,207 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import HomeHero from '../components/HomeHero.astro';
+import { properties } from '../data/properties';
+import { site } from '../data/site';
+---
+
+<Base
+  home
+  title="Marvelous Living | Serviced apartments in Bengaluru"
+  description="Whole-home serviced apartments in Bengaluru for short and medium stays. Set up for working, resting and staying a while."
+>
+  <!-- HERO -->
+  <HomeHero />
+
+  <!-- STATEMENT -->
+  <section class="section statement" aria-label="Our promise">
+    <div class="container">
+      <p class="statement-text display" data-split>
+        A city home that feels like <em class="accent">yours</em> from the first night, whether you are here for a weekend or a few months.
+      </p>
+    </div>
+  </section>
+
+  <!-- STAYS INDEX -->
+  <section class="section index" id="stays" aria-labelledby="index-title">
+    <div class="container">
+      <div class="index-head">
+        <p class="eyebrow">Our stays</p>
+        <h2 id="index-title" data-split>{properties.length} homes in Bengaluru</h2>
+      </div>
+      <div class="index-grid">
+        <ol class="index-list" role="list" data-index-list>
+          {properties.map((p, i) => (
+            <li>
+              <a class="row" href={`/stays/${p.slug}`} data-index-item={i}>
+                <span class="row-num" aria-hidden="true">{p.number}</span>
+                <span class="row-name">{p.name}</span>
+                <span class="row-meta">{p.area} · {p.type} · {p.guests} guests</span>
+                <span class="row-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+        <div class="index-preview" aria-hidden="true">
+          {properties.map((p, i) => (
+            <img
+              src={p.hero.src}
+              alt=""
+              width={p.hero.width}
+              height={p.hero.height}
+              loading="lazy"
+              class:list={[{ 'is-active': i === 0 }]}
+              data-index-preview={i}
+              style={`view-transition-name: photo-${p.slug}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILLARS -->
+  <section class="pillars-section" id="why" aria-labelledby="why-title">
+    <div>
+      <div class="container section">
+        <p class="eyebrow">Why stay with us</p>
+        <h2 id="why-title" data-split>More home than hotel</h2>
+        <ol class="pillars" role="list">
+          {site.pillars.map((p, i) => (
+            <li class="pillar" data-reveal>
+              <span class="pillar-num" aria-hidden="true">0{i + 1}</span>
+              <h3>{p.title}</h3>
+              <p>{p.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROOF -->
+  <section class="band-wrap" aria-labelledby="proof-title">
+  <div class="section proof on-dark band" data-band>
+    <svg class="draw-line" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path data-draw d="M-20 320 C 220 120, 420 380, 640 220 S 1020 40, 1180 200 S 1380 300, 1460 120" fill="none" stroke="var(--rust)" stroke-width="2.5" stroke-linecap="round" />
+    </svg>
+    <div class="container">
+      <p class="eyebrow">Guests say</p>
+      <h2 id="proof-title" data-split>Looked after, <em>start to finish</em></h2>
+      <dl class="stats">
+        {site.stats.map((s) => (
+          <div class="stat" data-reveal>
+            <dt>{s.label}</dt>
+            <dd class="display">{s.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+  </section>
+
+  <!-- LONG STAYS -->
+  <section class="section long" id="long-stays" aria-labelledby="long-title">
+    <div class="container long-grid">
+      <div>
+        <p class="eyebrow">Medium and long stays</p>
+        <h2 id="long-title" data-split>Here for a month or more?</h2>
+      </div>
+      <div class="stack">
+        <p class="lead">Relocating, on a project, or between homes? Our apartments are set up to live in, with a full kitchen, a proper workspace and fast WiFi.</p>
+        <p>Tell us your dates and we'll share availability and the best rate for a longer stay.</p>
+        <a class="btn" href={site.whatsappEnquiry} target="_blank" rel="noopener">
+          Ask about a long stay<span class="visually-hidden"> on WhatsApp (opens in a new tab)</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={site.faq} />
+</Base>
+
+<style>
+  /* ---------- Statement ---------- */
+  .statement-text {
+    font-size: var(--step-3);
+    line-height: 1.12;
+    max-width: 20ch;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  /* ---------- Index ---------- */
+  .index-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 3rem; }
+  .index-head { flex-direction: column; align-items: start; }
+  .index-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+  .index-list { border-top: 1px solid var(--line); }
+  .index-list li { border-bottom: 1px solid var(--line); }
+  .row {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr auto;
+    grid-template-areas: 'num name arrow' 'num meta arrow';
+    align-items: center;
+    column-gap: 1rem;
+    padding: 1.75rem 0.5rem;
+    text-decoration: none;
+    transition: padding 0.5s var(--ease-out), background-color 0.4s;
+  }
+  .row:hover, .row:focus-visible, .row.is-active { padding-left: 1.25rem; background: var(--bg-alt); }
+  .row-num { grid-area: num; font-weight: 700; color: var(--rust); font-size: var(--step--1); }
+  .row-name { grid-area: name; font-family: var(--font-display); font-size: var(--step-2); line-height: 1.1; font-variation-settings: 'SOFT' 100, 'opsz' 96; }
+  .row-meta { grid-area: meta; color: var(--ink-soft); font-size: var(--step--1); margin-top: 0.25rem; }
+  .row-arrow { grid-area: arrow; font-size: 1.5rem; transition: transform 0.4s var(--ease-out); }
+  .row:hover .row-arrow, .row:focus-visible .row-arrow { transform: translateX(6px); color: var(--rust); }
+  .index-preview { position: sticky; top: 7rem; aspect-ratio: 4 / 5; border-radius: var(--radius-lg); overflow: hidden; background: var(--bg-alt); }
+  .index-preview img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.06); transition: opacity 0.6s var(--ease-out), transform 1.2s var(--ease-out); }
+  .index-preview img.is-active { opacity: 1; transform: none; }
+  @media (max-width: 860px) {
+    .index-grid { grid-template-columns: 1fr; }
+    .index-preview { display: none; }
+  }
+
+  /* ---------- Pillars band ---------- */
+  .band-wrap { padding-inline: var(--band-inset, 0px); }
+  .band { border-radius: var(--band-radius, 0px); overflow: hidden; }
+  .pillars-section h2 { margin-top: 1rem; max-width: 14ch; }
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 3vw, 3rem); margin-top: clamp(3rem, 6vw, 5rem); }
+  .pillar { border-top: 1px solid var(--line); padding-top: 1.5rem; }
+  .pillar-num { display: block; color: var(--rust); font-weight: 700; font-size: var(--step--1); margin-bottom: 2.5rem; }
+  .pillar h3 { font-size: var(--step-2); margin-bottom: 0.75rem; }
+  .pillar p { color: var(--ink-soft); }
+  @media (max-width: 860px) { .pillars { grid-template-columns: 1fr; } }
+
+  /* ---------- Proof ---------- */
+  .proof { position: relative; overflow: hidden; }
+  .proof .container { position: relative; z-index: 1; }
+  .proof h2 { margin-top: 1rem; }
+  .proof h2 em { color: var(--ink-on-dark-soft); }
+  .draw-line { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.55; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: clamp(3rem, 6vw, 5rem); }
+  .stat { display: flex; flex-direction: column-reverse; gap: 0.5rem; border-top: 1px solid var(--line-on-dark); padding-top: 1.25rem; }
+  .stat dt { color: var(--ink-on-dark-soft); }
+  .stat dd { font-size: var(--step-4); line-height: 1; color: var(--ink-on-dark); letter-spacing: -0.03em; }
+  @media (max-width: 760px) { .stats { grid-template-columns: 1fr; } }
+
+  /* ---------- Long stays ---------- */
+  .long { border-top: 1px solid var(--line); }
+  .long-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 5rem); align-items: end; }
+  .long h2 { margin-top: 1rem; }
+  .long .stack { --stack: 1.25rem; }
+  @media (max-width: 860px) { .long-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  // Index: hover OR keyboard focus swaps the preview photo.
+  const list = document.querySelector('[data-index-list]');
+  const previews = document.querySelectorAll<HTMLElement>('[data-index-preview]');
+  const items = document.querySelectorAll<HTMLElement>('[data-index-item]');
+  const activate = (i: string | undefined) => {
+    if (i === undefined) return;
+    previews.forEach((p) => p.classList.toggle('is-active', p.dataset.indexPreview === i));
+    items.forEach((it) => it.classList.toggle('is-active', it.dataset.indexItem === i));
+  };
+  list?.addEventListener('pointerover', (e) => activate((e.target as HTMLElement).closest<HTMLElement>('[data-index-item]')?.dataset.indexItem));
+  list?.addEventListener('focusin', (e) => activate((e.target as HTMLElement).closest<HTMLElement>('[data-index-item]')?.dataset.indexItem));
+</script>

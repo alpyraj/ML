@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import StayCard from '../../components/StayCard.astro';
+import { properties } from '../../data/properties';
+---
+
+<Base title="Stays | Marvelous Living, Bengaluru" description="Browse our serviced apartments in Bengaluru: whole homes with a kitchen, workspace and fast WiFi.">
+  <section class="section head">
+    <div class="container">
+      <p class="eyebrow">Stays</p>
+      <h1 class="title" data-split>Homes with <em class="accent">room to settle in</em></h1>
+      <p class="lead">Every stay is a whole apartment with a kitchen, a proper workspace and a host on WhatsApp. Pick a home, then book on Airbnb or message us.</p>
+    </div>
+  </section>
+  <section class="section list" aria-label="All stays">
+    <div class="container grid">
+      {properties.map((p) => <StayCard stay={p} headingLevel="h2" />)}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head { padding-top: clamp(8rem, 16vw, 12rem); padding-bottom: 2rem; }
+  .title { font-size: var(--step-4); margin-block: 1rem 1.5rem; max-width: 14ch; }
+  .list { padding-top: 2rem; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(2rem, 4vw, 3rem); }
+  .grid > :global(:nth-child(even)) { margin-top: clamp(0rem, 8vw, 7rem); }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } .grid > :global(:nth-child(even)) { margin-top: 0; } }
+</style>

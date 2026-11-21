@@ -1,0 +1,271 @@
+---
+import { properties } from '../data/properties';
+import { site } from '../data/site';
+import '@fontsource/young-serif/400.css';
+
+const cassia = properties[0];
+const pick = (match: string, room: string) => {
+  const photo = cassia.gallery.find((p) => p.src.includes(match)) ?? cassia.gallery[0];
+  return { ...photo, caption: `${cassia.name} N°${cassia.number}`, room };
+};
+const slides = [
+  pick('livingroom', 'Living room'),
+  pick('bedroom2', 'Bedroom'),
+  pick('dining', 'Dining area'),
+  pick('tvunit', 'Lounge'),
+];
+---
+
+<section class="hero" aria-labelledby="hero-title" data-hero>
+  <div class="hero-media" data-hero-media>
+    {slides.map((s, i) => (
+      <img
+        src={s.src}
+        alt=""
+        width={s.width}
+        height={s.height}
+        class:list={['slide', { 'is-active': i === 0 }]}
+        fetchpriority={i === 0 ? 'high' : undefined}
+        loading={i === 0 ? 'eager' : 'lazy'}
+        decoding="async"
+        data-slide={i}
+        data-room={s.room}
+      />
+    ))}
+    <span class="grain" aria-hidden="true"></span>
+  </div>
+
+  <svg class="hero-wave hero-wave--wide" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path data-hero-draw d="M-30 430 C 140 330, 320 560, 520 480 S 800 760, 1020 690 S 1200 500, 1330 600 S 1440 720, 1480 640" />
+  </svg>
+  <svg class="hero-wave hero-wave--narrow" viewBox="0 0 390 844" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path data-hero-draw d="M-20 300 C 60 230, 130 420, 210 350 S 340 250, 410 380" />
+  </svg>
+
+  <div class="hero-grid">
+    <h1 id="hero-title" class="hero-title">
+      <span class="visually-hidden">Marvelous Living, {site.tagline.toLowerCase()}</span>
+      <span class="word word--top" aria-hidden="true" data-hero-word="left"><span data-hero-rise>Marvelous</span></span>
+      <span class="word word--bottom" aria-hidden="true" data-hero-word="right"><span data-hero-rise><em>Living</em></span></span>
+    </h1>
+
+    <div class="hero-copy" data-hero-fade>
+      <p class="hero-kicker">Between work &amp; rest</p>
+      <p class="hero-lead">Whole homes in Bengaluru for short and medium stays. Quiet, lived-in and set up for staying a while.</p>
+      <a class="hero-cta" href="/stays">Explore our stays <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="hero-meta" data-hero-fade>
+      <p class="caption" aria-hidden="true">
+        <span>{slides[0].caption}</span>
+        <span class="caption-room" data-hero-room>{slides[0].room}</span>
+      </p>
+      <button type="button" class="slide-toggle" data-slide-toggle aria-pressed="false">
+        <span class="visually-hidden" data-slide-toggle-label>Pause background photos</span>
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" class="icon-pause"><path d="M4 3h3v10H4zM9 3h3v10H9z" /></svg>
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" class="icon-play"><path d="M4 3l9 5-9 5z" /></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    color: var(--ink-on-dark);
+    background: var(--bg-deep);
+    overflow: clip;
+    isolation: isolate;
+  }
+
+  /* Full-bleed photo with a warm dark wash and fine grain (the source photos are small). */
+  .hero-media { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
+  .slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.06);
+    transition: opacity 1.4s var(--ease-out), transform 7s linear;
+  }
+  .slide.is-active { opacity: 1; transform: scale(1); }
+  .hero-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(42, 27, 18, 0.55) 0%, rgba(42, 27, 18, 0.25) 35%, rgba(42, 27, 18, 0.3) 60%, rgba(42, 27, 18, 0.78) 100%),
+      rgba(42, 27, 18, 0.3);
+  }
+  .grain {
+    position: absolute;
+    inset: -50%;
+    z-index: 1;
+    opacity: 0.22;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* A hand-drawn rust line, echoing the one in the guest section. */
+  .hero-wave {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .hero-wave path {
+    fill: none;
+    stroke: color-mix(in srgb, var(--rust) 75%, var(--bg));
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.9;
+  }
+  .hero-wave--narrow { display: none; }
+  @media (max-width: 760px) {
+    .hero-wave--wide { display: none; }
+    .hero-wave--narrow { display: block; }
+  }
+
+  .hero-grid {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 1.5rem 2rem;
+    padding: clamp(6rem, 11vw, 8.5rem) var(--gutter) clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .hero-title { display: contents; color: inherit; }
+  .word {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.06em;
+    font-family: 'Young Serif', var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 12.3vw, 15rem);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--ink-on-dark);
+  }
+  .word > span { display: inline-block; }
+  .word em { font-style: normal; }
+  .word--top { grid-column: 1 / -1; grid-row: 1; justify-self: start; }
+  .word--bottom { grid-column: 1 / -1; grid-row: 2; justify-self: end; }
+
+  .hero-copy {
+    grid-column: 1; grid-row: 3;
+    align-self: end;
+    max-width: 30rem;
+  }
+  .hero-kicker {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--step-2);
+    line-height: 1.1;
+  }
+  .hero-lead {
+    margin-top: 0.85rem;
+    font-size: var(--step-0);
+    line-height: 1.55;
+    color: var(--ink-on-dark);
+    max-width: 34ch;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 44px;
+    margin-top: 1.25rem;
+    color: var(--ink-on-dark);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+  }
+  .hero-cta .arrow { transition: transform 0.4s var(--ease-out); }
+  .hero-cta:hover .arrow { transform: translateX(6px); }
+
+  .hero-meta {
+    grid-column: 1 / -1; grid-row: 4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line-on-dark);
+  }
+  .caption {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .caption-room::before { content: '/'; margin-right: 0.75rem; opacity: 0.6; }
+  .slide-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--line-on-dark);
+    background: transparent;
+    color: var(--ink-on-dark);
+    cursor: pointer;
+  }
+  .slide-toggle:hover { background: rgba(250, 241, 228, 0.12); }
+  .slide-toggle svg { width: 14px; height: 14px; fill: currentColor; }
+  .slide-toggle .icon-play { display: none; }
+  .slide-toggle[aria-pressed='true'] .icon-play { display: block; }
+  .slide-toggle[aria-pressed='true'] .icon-pause { display: none; }
+
+  @media (max-width: 760px) {
+    .hero-grid { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr auto; padding-top: 6.5rem; }
+    .hero-copy { grid-column: 1; align-self: end; }
+    .word { font-size: 12.2vw; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .slide { transition: none; transform: none; }
+  }
+</style>
+
+<script>
+  // Background photo cross-fade with a pause control (WCAG 2.2.2).
+  const slides = Array.from(document.querySelectorAll<HTMLImageElement>('[data-slide]'));
+  const room = document.querySelector<HTMLElement>('[data-hero-room]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-slide-toggle]');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let index = 0;
+  let timer: number | undefined;
+
+  const show = (i: number) => {
+    slides[index].classList.remove('is-active');
+    index = (i + slides.length) % slides.length;
+    slides[index].classList.add('is-active');
+    if (room) room.textContent = slides[index].dataset.room || '';
+  };
+  const play = () => { timer = window.setInterval(() => show(index + 1), 5500); };
+  const pause = () => { window.clearInterval(timer); timer = undefined; };
+  const setPaused = (paused: boolean) => {
+    toggle?.setAttribute('aria-pressed', String(paused));
+    paused ? pause() : play();
+  };
+
+  if (slides.length > 1) {
+    setPaused(reduced);
+    toggle?.addEventListener('click', () => setPaused(timer !== undefined));
+  } else if (toggle) {
+    toggle.hidden = true;
+  }
+</script>

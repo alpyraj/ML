@@ -1,0 +1,271 @@
+---
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import StayCard from '../../components/StayCard.astro';
+import { properties, type Property } from '../../data/properties';
+import { site } from '../../data/site';
+
+export function getStaticPaths() {
+  return properties.map((stay) => ({ params: { slug: stay.slug }, props: { stay } }));
+}
+interface Props { stay: Property }
+const { stay } = Astro.props;
+const heroSide = stay.gallery.filter((g) => g.src !== stay.hero.src).slice(0, 2);
+const others = properties.filter((p) => p.slug !== stay.slug);
+const facts = [
+  { label: 'Sleeps', value: `${stay.guests} guests` },
+  { label: 'Bedrooms', value: stay.bedrooms },
+  { label: 'Bathrooms', value: stay.bathrooms },
+  { label: 'Beds', value: stay.beds },
+];
+---
+
+<Base title={`${stay.name}, ${stay.area} | Marvelous Living`} description={stay.summary}>
+  <article>
+    <header class="intro container">
+      <nav aria-label="Breadcrumb" class="crumbs">
+        <ol role="list">
+          <li><a href="/stays">Stays</a></li>
+          <li aria-current="page">{stay.name}</li>
+        </ol>
+      </nav>
+      <h1 class="title" data-split>{stay.name}</h1>
+      <p class="sub">{stay.type} in {stay.area}, {stay.city}</p>
+    </header>
+
+    <div class="hero">
+      <figure class="hero-main" data-grow>
+        <img
+          src={stay.hero.src}
+          alt={stay.hero.alt}
+          width={stay.hero.width}
+          height={stay.hero.height}
+          fetchpriority="high"
+          style={`view-transition-name: photo-${stay.slug}`}
+        />
+      </figure>
+      {heroSide.map((photo) => (
+        <figure class="hero-side" data-grow>
+          <img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} />
+        </figure>
+      ))}
+    </div>
+
+    <div class="container layout">
+      <div class="content">
+        <section class="block" aria-labelledby="about-title">
+          <p class="eyebrow">About this space</p>
+          <h2 id="about-title" data-split>{stay.summary}</h2>
+          <div class="stack">
+            {stay.description.map((para) => <p>{para}</p>)}
+          </div>
+          <dl class="facts">
+            {facts.map((f) => (
+              <div>
+                <dt>{f.label}</dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <section class="block" aria-labelledby="gallery-title">
+          <p class="eyebrow">Gallery</p>
+          <h2 id="gallery-title" data-split>A closer look inside</h2>
+          <ul class="gallery" role="list">
+            {stay.gallery.map((photo, i) => (
+              <li class:list={['shot', { wide: i % 3 === 0 }]} data-reveal>
+                <button type="button" class="shot-btn" data-lightbox-open={i} aria-label={`Open photo: ${photo.alt}`}>
+                  <img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section class="block" aria-labelledby="amenities-title">
+          <p class="eyebrow">What's included</p>
+          <h2 id="amenities-title" data-split>Everything a proper stay needs</h2>
+          <ul class="amenities" role="list">
+            {stay.amenities.map((a) => (
+              <li data-reveal>
+                <h3>{a.title}</h3>
+                <p>{a.text}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {stay.distances.length > 0 && (
+          <section class="block" aria-labelledby="location-title">
+            <p class="eyebrow">Getting here</p>
+            <h2 id="location-title" data-split>Right where you'll want to be</h2>
+            {stay.address && <p class="address">{stay.address}</p>}
+            <dl class="distances">
+              {stay.distances.map((d) => (
+                <div data-reveal>
+                  <dd class="display">{d.value}</dd>
+                  <dt>{d.label}</dt>
+                </div>
+              ))}
+            </dl>
+            {stay.mapsUrl && (
+              <a class="btn btn--ghost" href={stay.mapsUrl} target="_blank" rel="noopener">
+                Open in Google Maps<span class="visually-hidden"> (opens in a new tab)</span> <span class="arrow" aria-hidden="true">↗</span>
+              </a>
+            )}
+          </section>
+        )}
+      </div>
+
+      <aside class="book" aria-label="Book this stay">
+        <div class="book-card">
+          <p class="book-rating"><strong>4.9 / 5</strong> from Airbnb guests</p>
+          <p class="book-note">Rates vary by date. Check live pricing on Airbnb, or send us your dates on WhatsApp.</p>
+          <a class="btn" href={stay.airbnbUrl} target="_blank" rel="noopener">
+            Book on Airbnb<span class="visually-hidden"> (opens in a new tab)</span>
+          </a>
+          <a class="btn btn--ghost" href={site.whatsappEnquiry} target="_blank" rel="noopener">
+            Enquire on WhatsApp<span class="visually-hidden"> (opens in a new tab)</span>
+          </a>
+        </div>
+      </aside>
+    </div>
+  </article>
+
+  <Faq items={site.faq} />
+
+  {others.length > 0 && (
+    <section class="section others" aria-labelledby="others-title">
+      <div class="container">
+        <h2 id="others-title" data-split>Other stays nearby</h2>
+        <div class="others-grid">
+          {others.map((p) => <StayCard stay={p} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <dialog class="lightbox" data-lightbox aria-label="Photo viewer">
+    <form method="dialog"><button class="lb-close" aria-label="Close photo viewer">×</button></form>
+    <img data-lightbox-img alt="" />
+    <p class="lb-caption" data-lightbox-caption></p>
+    <div class="lb-nav">
+      <button type="button" data-lightbox-prev aria-label="Previous photo">←</button>
+      <button type="button" data-lightbox-next aria-label="Next photo">→</button>
+    </div>
+  </dialog>
+
+  <script is:inline type="application/json" id="gallery-data" set:html={JSON.stringify(stay.gallery)} />
+</Base>
+
+<style>
+  .intro { padding-top: clamp(7.5rem, 14vw, 11rem); }
+  .crumbs ol { display: flex; gap: 0.5rem; font-size: var(--step--1); color: var(--ink-soft); }
+  .crumbs li + li::before { content: '/'; margin-right: 0.5rem; }
+  .crumbs a { font-weight: 600; }
+  .title { font-size: var(--step-4); margin-top: 1.25rem; }
+  .sub { margin-top: 0.75rem; font-size: var(--step-1); color: var(--ink-soft); }
+
+  /* A bento of three photos keeps each one near its native size, so they stay sharp. */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: clamp(0.5rem, 1.2vw, 1rem);
+    margin: clamp(2rem, 5vw, 4rem) auto 0;
+    width: min(100% - 2 * var(--gutter), var(--container));
+    height: min(72vh, 680px);
+  }
+  .hero figure { border-radius: var(--radius-lg); overflow: hidden; background: var(--bg-alt); }
+  .hero-main { grid-row: span 2; }
+  .hero img { width: 100%; height: 100%; object-fit: cover; }
+
+  .layout { display: grid; grid-template-columns: 1fr 340px; gap: clamp(2rem, 6vw, 6rem); align-items: start; padding-block: var(--section-pad); }
+  .block + .block { margin-top: var(--section-pad); }
+  .block h2 { font-size: var(--step-2); margin-block: 1rem 1.5rem; max-width: 24ch; }
+
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2.5rem; }
+  .facts div { border-top: 1px solid var(--line); padding-top: 0.75rem; }
+  .facts dt { font-size: var(--step--1); color: var(--ink-soft); }
+  .facts dd { font-family: var(--font-display); font-size: var(--step-1); }
+
+  .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .shot.wide { grid-column: span 2; }
+  .shot-btn { display: block; width: 100%; padding: 0; border: 0; background: var(--bg-alt); border-radius: var(--radius-md); overflow: hidden; cursor: zoom-in; aspect-ratio: 4 / 3; }
+  .shot.wide .shot-btn { aspect-ratio: 16 / 9; }
+  .shot-btn img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease-out); }
+  .shot-btn:hover img, .shot-btn:focus-visible img { transform: scale(1.04); }
+
+  .amenities { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem 2.5rem; }
+  .amenities li { border-top: 1px solid var(--line); padding-top: 1rem; }
+  .amenities h3 { font-size: var(--step-1); margin-bottom: 0.4rem; }
+  .amenities p { color: var(--ink-soft); }
+
+  .address { color: var(--ink-soft); }
+  .distances { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-block: 2rem; }
+  .distances div { display: flex; flex-direction: column; }
+  .distances dd { font-size: var(--step-3); line-height: 1; color: var(--rust); }
+  .distances dt { color: var(--ink-soft); margin-top: 0.4rem; }
+
+  .book { position: sticky; top: 7rem; }
+  .book-card { display: grid; gap: 0.85rem; padding: 1.75rem; border-radius: var(--radius-lg); background: var(--white); box-shadow: var(--shadow-soft); }
+  .book-rating strong { font-family: var(--font-display); font-size: var(--step-2); font-weight: 400; display: block; }
+  .book-note { font-size: var(--step--1); color: var(--ink-soft); margin-bottom: 0.5rem; }
+
+  .others { background: var(--bg-alt); }
+  .others h2 { margin-bottom: 2.5rem; font-size: var(--step-3); }
+  .others-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+
+  .lightbox { width: min(92vw, 1100px); max-height: 92vh; padding: 1rem; border: 0; border-radius: var(--radius-lg); background: var(--bg-deep); color: var(--ink-on-dark); }
+  .lightbox::backdrop { background: rgba(20, 12, 8, 0.82); }
+  .lightbox img { width: 100%; max-height: 74vh; object-fit: contain; border-radius: var(--radius-md); }
+  .lb-caption { margin: 0.75rem auto 0; text-align: center; color: var(--ink-on-dark-soft); }
+  .lb-close { position: absolute; right: 1rem; top: 1rem; z-index: 2; }
+  .lb-nav { display: flex; justify-content: center; gap: 1rem; margin-top: 0.75rem; }
+  .lightbox button { min-width: 48px; min-height: 48px; border-radius: 50%; border: 1px solid var(--ink-on-dark-soft); background: var(--bg-deep); color: var(--ink-on-dark); font-size: 1.4rem; cursor: pointer; }
+  .lightbox button:focus-visible { outline: 3px solid var(--ink-on-dark); }
+
+  @media (max-width: 960px) {
+    .layout { grid-template-columns: 1fr; }
+    .book { position: fixed; inset: auto 0 0 0; top: auto; z-index: 40; }
+    .book-card { grid-template-columns: 1fr 1fr; border-radius: var(--radius-lg) var(--radius-lg) 0 0; padding: 0.85rem var(--gutter) calc(0.85rem + env(safe-area-inset-bottom)); }
+    .book-rating, .book-note { display: none; }
+    :global(body) { padding-bottom: 5rem; }
+    .hero { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; height: auto; }
+    .hero-main { grid-row: auto; grid-column: span 2; aspect-ratio: 4 / 3; }
+    .hero-side { aspect-ratio: 1; }
+  }
+  @media (max-width: 640px) {
+    .facts { grid-template-columns: repeat(2, 1fr); }
+    .amenities, .distances, .others-grid { grid-template-columns: 1fr; }
+    .gallery { gap: 0.5rem; }
+  }
+</style>
+
+<script>
+  // Accessible lightbox built on <dialog>: Esc closes, focus returns to the opener.
+  const dialog = document.querySelector<HTMLDialogElement>('[data-lightbox]');
+  const img = document.querySelector<HTMLImageElement>('[data-lightbox-img]');
+  const caption = document.querySelector<HTMLElement>('[data-lightbox-caption]');
+  const data: { src: string; alt: string }[] = JSON.parse(document.getElementById('gallery-data')?.textContent || '[]');
+  let index = 0;
+  let opener: HTMLElement | null = null;
+  const show = (i: number) => {
+    index = (i + data.length) % data.length;
+    if (!img || !caption) return;
+    img.src = data[index].src;
+    img.alt = data[index].alt;
+    caption.textContent = `${data[index].alt} (${index + 1} of ${data.length})`;
+  };
+  document.querySelectorAll<HTMLButtonElement>('[data-lightbox-open]').forEach((btn) =>
+    btn.addEventListener('click', () => { opener = btn; show(Number(btn.dataset.lightboxOpen)); dialog?.showModal(); })
+  );
+  document.querySelector('[data-lightbox-prev]')?.addEventListener('click', () => show(index - 1));
+  document.querySelector('[data-lightbox-next]')?.addEventListener('click', () => show(index + 1));
+  dialog?.addEventListener('close', () => requestAnimationFrame(() => opener?.focus()));
+  dialog?.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') show(index - 1);
+    if (e.key === 'ArrowRight') show(index + 1);
+  });
+</script>
